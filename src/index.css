@@ -44,6 +44,9 @@ a:focus-visible, button:focus-visible { outline: 3px solid #7fe3ff; outline-offs
 
 /* ── type & controls ── */
 .hero-title { text-shadow: 0 4px 30px rgba(0, 0, 0, .35); }
+.hero-line {
+  padding-block: 0.06em;
+}
 [dir='rtl'] .hero-title { font-family: Tajawal, sans-serif; font-weight: 800; letter-spacing: 0; }
 [data-theme='light'] .hero-title { text-shadow: none; }
 .g-pink { background: linear-gradient(90deg, #ff7aa8, #b57bff); -webkit-background-clip: text; background-clip: text; color: transparent; }

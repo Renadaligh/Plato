@@ -6,8 +6,7 @@ export default function HeroContent() {
   return (
     <div className="hero-copy">
       <p className="hero-eyebrow mb-3.5 text-[clamp(.7rem,.9vw,.9rem)] tracking-[.38em] rtl:tracking-normal" style={{ color: 'var(--muted)' }}>{t.eyebrow}</p>
-      <h1 className="hero-title font-display text-[clamp(3rem,min(6.2vw,11.5vh),6.4rem)] font-black leading-[.98] tracking-[-.01em]">
-        <span className="hero-line block">{t.title1}</span>
+      <h1 className="hero-title font-display text-[clamp(3rem,min(6.2vw,11.5vh),6.4rem)] font-black leading-[1.08] tracking-[-.01em]">        <span className="hero-line block">{t.title1}</span>
         <span className="hero-line g-pink block">{t.title2}</span>
         <span className="hero-line g-cyan block">{t.title3}</span>
       </h1>
