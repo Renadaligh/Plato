@@ -18,7 +18,7 @@ export interface ArtLayer {
 export const LAYERS: ArtLayer[] = [
   {
     id: 'scene',
-    src: '/art/hero-scene.webp',
+    src: `${import.meta.env.BASE_URL}art/hero-scene.webp`,
     depth: 12,
     zoom: 0.12,
     mirrorInLtr: true,
