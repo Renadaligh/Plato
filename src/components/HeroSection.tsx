@@ -26,7 +26,7 @@ export default function HeroSection() {
       <div className="hero-mist pointer-events-none absolute inset-x-0 bottom-0 h-[22%]" />
       <div className="hero-scrim pointer-events-none absolute inset-0" />
       <ParticleField />
-      <div className="relative z-10 flex flex-1 flex-col justify-center px-[clamp(1.1rem,7vw,6.9rem)] pb-[8vh] pt-28 max-md:justify-end max-md:pb-[10vh] md:w-[52%] md:max-w-[720px] [@media(max-height:560px)]:pt-24">
+      <div className="relative z-10 flex flex-1 flex-col justify-center px-[clamp(1.1rem,4vw,5rem)] pb-[8vh] pt-28 max-md:justify-end max-md:pb-[10vh] md:w-[70%] md:max-w-[980px] [@media(max-height:560px)]:pt-24">
         <HeroContent />
       </div>
       <div className="hero-veil pointer-events-none absolute inset-0 z-[8] opacity-0" style={{ background: 'var(--bg)' }} />
