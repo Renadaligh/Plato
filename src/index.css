@@ -15,6 +15,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid #7fe3ff; outline-offs
 
 /* ── artwork layers: scroll zoom (middle) → entrance → media ── */
 .art-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* iOS draws a big play badge when autoplay is blocked; hide it (the poster stays visible) */
+.art-video::-webkit-media-controls, .art-video::-webkit-media-controls-start-playback-button, .art-video::-webkit-media-controls-overlay-play-button, .art-video::-webkit-media-controls-panel { display: none !important; -webkit-appearance: none; }
 
 /* ---- Latest News ---- */
 .news-card { position: relative; display: flex; flex-direction: column; overflow: hidden; border-radius: 1.25rem; border: 1px solid var(--glass-b); background: var(--glass); backdrop-filter: blur(10px); transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }

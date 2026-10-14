@@ -13,14 +13,22 @@ function HeroVideo() {
   useEffect(() => {
     const v = ref.current;
     if (!v || reduce) return;
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) void v.play().catch(() => undefined); else v.pause(); });
+    let inView = false;
+    const play = () => { void v.play().catch(() => undefined); };
+    const io = new IntersectionObserver(([e]) => { inView = e.isIntersecting; if (inView) play(); else v.pause(); });
     io.observe(v);
-    return () => io.disconnect();
+    // iPhones in Low Power Mode (and some in-app browsers) refuse autoplay: start on the first touch / key press instead.
+    const events = ['touchend', 'pointerdown', 'keydown'] as const;
+    const kick = () => { if (inView && v.paused) play(); };
+    const done = () => events.forEach((ev) => window.removeEventListener(ev, kick));
+    events.forEach((ev) => window.addEventListener(ev, kick, { passive: true }));
+    v.addEventListener('playing', done, { once: true });
+    return () => { io.disconnect(); done(); v.removeEventListener('playing', done); };
   }, [reduce]);
 
   const src = phone ? HERO.videoPhone : HERO.video;
   return (
-    <video key={src.mp4} ref={ref} className="art-video" poster={HERO.poster} muted loop playsInline preload="auto" autoPlay={!reduce} aria-hidden="true">
+    <video key={src.mp4} ref={ref} className="art-video" poster={HERO.poster} muted loop playsInline disableRemotePlayback preload="auto" autoPlay={!reduce} aria-hidden="true">
       <source src={src.webm} type="video/webm" />
       <source src={src.mp4} type="video/mp4" />
     </video>

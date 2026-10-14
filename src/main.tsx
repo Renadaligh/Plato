@@ -12,3 +12,12 @@ import './index.css';
 import App from './App';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode><App /></React.StrictMode>);
+
+// Fade out the instant poster (index.html #boot) once the app has painted, while the hero's own entrance fades in beneath it.
+const boot = document.getElementById('boot');
+if (boot) {
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    boot.style.opacity = '0';
+    window.setTimeout(() => boot.remove(), 1400);
+  }));
+}
