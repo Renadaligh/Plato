@@ -9,6 +9,8 @@ function HeroVideo() {
   const [reduce] = useState(() => matchMedia('(prefers-reduced-motion: reduce)').matches);
   // Phones get the lighter 1600-wide file (picked once on load).
   const [phone] = useState(() => matchMedia('(max-width: 767px)').matches);
+  // The video stays invisible until it is really playing, so a blocked autoplay never shows the browser's play badge.
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const v = ref.current;
@@ -28,10 +30,16 @@ function HeroVideo() {
 
   const src = phone ? HERO.videoPhone : HERO.video;
   return (
-    <video key={src.mp4} ref={ref} className="art-video" poster={HERO.poster} muted loop playsInline disableRemotePlayback preload="auto" autoPlay={!reduce} aria-hidden="true">
-      <source src={src.webm} type="video/webm" />
-      <source src={src.mp4} type="video/mp4" />
-    </video>
+    <>
+      <img src={HERO.poster} alt="" className="art-video" decoding="async" />
+      <video
+        key={src.mp4} ref={ref} className="art-video" muted loop playsInline disableRemotePlayback preload="auto" autoPlay={!reduce} aria-hidden="true"
+        onPlaying={() => setPlaying(true)} style={{ opacity: playing ? 1 : 0, transition: 'opacity .6s ease' }}
+      >
+        <source src={src.webm} type="video/webm" />
+        <source src={src.mp4} type="video/mp4" />
+      </video>
+    </>
   );
 }
 
