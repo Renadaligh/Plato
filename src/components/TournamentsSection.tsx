@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
 import { getGame } from '../data/games';
-import { SHOW_EXAMPLE_TOURNAMENTS, TOURNAMENTS_SEED, sortTournaments, statusOf, type Tournament, type TournamentStatus } from '../data/tournaments';
+import { SHEETS } from '../config/sheets';
+import { useTournaments } from '../hooks/useTournaments';
+import { SHOW_EXAMPLE_TOURNAMENTS, sortTournaments, statusOf, type Tournament, type TournamentStatus } from '../data/tournaments';
 import { useNow } from '../hooks/useNow';
 import { useI18n } from '../i18n/I18nProvider';
 import type { Dict } from '../i18n/translations';
@@ -121,7 +123,8 @@ export default function TournamentsSection() {
   const { t } = useI18n();
   const now = useNow(30000);
   const [tab, setTab] = useState<Tab>('all');
-  const sorted = useMemo(() => sortTournaments(TOURNAMENTS_SEED, now), [now]);
+  const { items, status, retry } = useTournaments();
+  const sorted = useMemo(() => sortTournaments(items, now), [items, now]);
   const withStatus = sorted.map((x) => ({ x, s: statusOf(x, now) }));
   const count = (k: Tab) => (k === 'all' ? withStatus.length : withStatus.filter((r) => r.s === k).length);
   const list = tab === 'all' ? withStatus : withStatus.filter((r) => r.s === tab);
@@ -144,15 +147,22 @@ export default function TournamentsSection() {
         ))}
       </div>
 
-      {list.length === 0 && <p style={{ color: 'var(--muted)' }}>{t.tEmpty}</p>}
-      {list.length > 0 && (
+      {status === 'loading' && <div className="m-rail md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-3" aria-busy="true">{[0, 1, 2].map((i) => <div key={i} className="news-skel" />)}</div>}
+      {status === 'error' && (
+        <div role="alert" className="flex flex-wrap items-center gap-4 rounded-2xl border p-5" style={{ background: 'var(--glass)', borderColor: 'var(--glass-b)' }}>
+          <p>{t.tError}</p>
+          <button type="button" className="btn-glass !px-5 !py-2.5" onClick={retry}>{t.newsRetry}</button>
+        </div>
+      )}
+      {status === 'ready' && list.length === 0 && <p style={{ color: 'var(--muted)' }}>{t.tEmpty}</p>}
+      {status === 'ready' && list.length > 0 && (
         <div className="m-rail md:block">
           {featured && <Featured x={featured.x} s={featured.s} />}
           {rest.length > 0 && <div className="m-cont">{rest.map((r) => <Card key={r.x.id} x={r.x} s={r.s} />)}</div>}
         </div>
       )}
 
-      {SHOW_EXAMPLE_TOURNAMENTS && <p className="mt-5 text-[.8rem]" style={{ color: 'var(--muted)', opacity: 0.75 }}>{t.tournExample}</p>}
+      {SHOW_EXAMPLE_TOURNAMENTS && !SHEETS.tournaments && <p className="mt-5 text-[.8rem]" style={{ color: 'var(--muted)', opacity: 0.75 }}>{t.tournExample}</p>}
     </section>
   );
 }

@@ -59,4 +59,4 @@ export function sortTournaments(list: Tournament[], now: number): Tournament[] {
   });
 }
 
-export const tournamentsForGame = (gameId: string) => TOURNAMENTS_SEED.filter((t) => t.gameId === gameId);
+export const tournamentsForGame = (list: Tournament[], gameId: string) => list.filter((t) => t.gameId === gameId);

@@ -19,7 +19,7 @@ const en = {
   ctaGames: 'Explore Games', ctaTournaments: 'View Tournaments',
   menu: 'Menu', closeMenu: 'Close menu', switchLang: 'Switch language',
   soon: 'Coming soon', langCode: 'EN',
-  footPlato: 'Plato', footElite: 'Elite', footRights: 'All rights reserved.', footNote: 'Plato and Elite are independent and not affiliated with any game publisher. All game names and trademarks belong to their respective owners.',
+  tError: 'Could not load the tournaments.', footPlato: 'Plato', footElite: 'Elite', footRights: 'All rights reserved.', footNote: 'Plato and Elite are independent and not affiliated with any game publisher. All game names and trademarks belong to their respective owners.',
   artAlt: 'A fantasy hero crouching on a floating stone platform among floating islands and a glowing citadel',
 };
 export type Dict = Record<keyof typeof en, string>;
@@ -43,7 +43,7 @@ const ar: Dict = {
   ctaGames: 'استكشف الألعاب', ctaTournaments: 'استعرض البطولات',
   menu: 'القائمة', closeMenu: 'إغلاق القائمة', switchLang: 'تبديل اللغة',
   soon: 'قريباً', langCode: 'ع',
-  footPlato: 'بلاتو', footElite: 'إيليت', footRights: 'جميع الحقوق محفوظة.', footNote: 'منصة بلاتو وفريق إيليت مستقلان وغير تابعين لأي ناشر ألعاب. جميع أسماء الألعاب والعلامات التجارية ملك لأصحابها.',
+  tError: 'تعذّر تحميل البطولات.', footPlato: 'بلاتو', footElite: 'إيليت', footRights: 'جميع الحقوق محفوظة.', footNote: 'منصة بلاتو وفريق إيليت مستقلان وغير تابعين لأي ناشر ألعاب. جميع أسماء الألعاب والعلامات التجارية ملك لأصحابها.',
   artAlt: 'بطل خيالي يجثو على منصة حجرية عائمة بين جزر طائرة وقلعة متوهجة',
 };
 export const translations: Record<Lang, Dict> = { en, ar };

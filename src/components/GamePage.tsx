@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { getGame, SHOW_EXAMPLE_GAMES } from '../data/games';
+import { useTournaments } from '../hooks/useTournaments';
 import { statusOf, tournamentsForGame } from '../data/tournaments';
 import { useI18n } from '../i18n/I18nProvider';
 import { ArrowIcon } from './icons';
@@ -23,7 +24,8 @@ const card = { background: 'var(--glass)', borderColor: 'var(--glass-b)' };
 export default function GamePage({ id }: { id: string }) {
   const { t, lang } = useI18n();
   const g = getGame(id);
-  const tours = g ? tournamentsForGame(g.id) : [];
+  const { items: allTours } = useTournaments();
+  const tours = g ? tournamentsForGame(allTours, g.id) : [];
   const now = Date.now();
   const date = (d: string) => new Intl.DateTimeFormat(lang === 'ar' ? 'ar-SA-u-ca-gregory' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(d));
   const back = (

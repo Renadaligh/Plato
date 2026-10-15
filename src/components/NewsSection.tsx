@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { SHEETS } from '../config/sheets';
 import { SHOW_EXAMPLE_NEWS } from '../data/news';
 import { useCardsReveal } from '../hooks/useCardsReveal';
 import { useNews } from '../hooks/useNews';
@@ -45,7 +46,7 @@ export default function NewsSection() {
         </div>
       )}
 
-      {SHOW_EXAMPLE_NEWS && status === 'ready' && <p className="mt-5 text-[.8rem]" style={{ color: 'var(--muted)', opacity: 0.75 }}>{t.newsExample}</p>}
+      {SHOW_EXAMPLE_NEWS && !SHEETS.news && status === 'ready' && <p className="mt-5 text-[.8rem]" style={{ color: 'var(--muted)', opacity: 0.75 }}>{t.newsExample}</p>}
     </section>
   );
 }
