@@ -82,9 +82,18 @@ function Featured({ x, s }: { x: Tournament; s: TournamentStatus }) {
   const c = g?.colors ?? ['#ff3b4e', '#6b0f1d'];
   return (
     <article className="news-card relative text-white md:mb-6" style={{ background: `linear-gradient(135deg, ${c[0]}, ${c[1]})`, border: 'none' }}>
-      <div aria-hidden="true" className="absolute inset-0 opacity-[.12]" style={{ background: `url(${BASE}brand/ninja.png) 92% 50% / auto 90% no-repeat` }} />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.15))' }} aria-hidden="true" />
-      <div className="relative grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+      {x.image ? (
+        <>
+          <img src={x.image} alt="" loading="lazy" decoding="async" className="tour-img" />
+          <div aria-hidden="true" className="tour-fade tour-fade-h" />
+        </>
+      ) : (
+        <>
+          <div aria-hidden="true" className="absolute inset-0 opacity-[.12]" style={{ background: `url(${BASE}brand/ninja.png) 92% 50% / auto 90% no-repeat` }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.15))' }} aria-hidden="true" />
+        </>
+      )}
+      <div className={`relative grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:items-center ${x.image ? 'pt-32 lg:pt-8' : ''}`}>
         <div className="flex flex-col">
           <div className="mb-3 flex flex-wrap items-center gap-3"><StatusPill s={s} />{g && <span className="text-[.85rem] font-semibold opacity-90">{g.name[lang]}</span>}</div>
           <h3 className="text-[clamp(1.5rem,3vw,2.3rem)] font-extrabold leading-tight">{x.name[lang]}</h3>
@@ -105,8 +114,14 @@ function Card({ x, s }: { x: Tournament; s: TournamentStatus }) {
   const c = g?.colors ?? ['#ff3b4e', '#6b0f1d'];
   return (
     <article className="news-card news-card-hover">
-      <div className="h-1.5" style={{ background: `linear-gradient(90deg, ${c[0]}, ${c[1]})` }} aria-hidden="true" />
-      <div className="flex flex-1 flex-col p-5">
+      {x.image && (
+        <>
+          <img src={x.image} alt="" loading="lazy" decoding="async" className="tour-img" />
+          <div aria-hidden="true" className="tour-fade" />
+        </>
+      )}
+      <div className="relative h-1.5" style={{ background: `linear-gradient(90deg, ${c[0]}, ${c[1]})` }} aria-hidden="true" />
+      <div className={`relative flex flex-1 flex-col p-5 ${x.image ? 'pt-24' : ''}`}>
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><StatusPill s={s} />{g && <span className="text-[.82rem] font-semibold" style={{ color: 'var(--muted)' }}>{g.name[lang]}</span>}</div>
         <h3 className="text-[1.15rem] font-semibold leading-snug">{x.name[lang]}</h3>
         <p className="mt-1 text-[.88rem]" style={{ color: 'var(--muted)' }}><time dateTime={x.startsAt}>{fmt(x.startsAt)}</time></p>

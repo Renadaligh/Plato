@@ -23,7 +23,7 @@ export const SHEETS = {
 ## الأعمدة
 **news**: id، date (YYYY-MM-DD)، tag (update / tournament / community / event)، title_ar، title_en، summary_ar، summary_en، image (اختياري)، link (اختياري)، published.
 
-**tournaments**: id، game (من تبويب games-ids)، name_ar/en، format_ar/en، starts_at، ends_at، prize_ar/en، filled، total، register_url، winner_ar/en (للمنتهية)، published.
+**tournaments**: id، game (من تبويب games-ids)، name_ar/en، format_ar/en، starts_at، ends_at، prize_ar/en، filled، total، register_url، winner_ar/en (للمنتهية)، image (اختياري)، published.
 
 ## ملاحظات
 - `published` = FALSE يخفي الصف (مسودة).
@@ -32,3 +32,5 @@ export const SHEETS = {
 - صف فيه تاريخ أو عنوان ناقص يتجاهله الموقع بدل ما يخرّب الصفحة.
 - الصور: رابط كامل `https://...` أو مسار داخل `public/` مثل `/news/a.webp`.
 - الجدول المنشور يقدر يشوفه أي أحد معه الرابط، لا تحط فيه بيانات خاصة. ردود نموذج التسجيل تبقى في ملف منفصل غير منشور.
+
+- صورة البطولة (`image`): أفقية 16:9 بجودة عالية، تظهر خلف البطاقة وتتلاشى للأسود من جهة الكلام. حط أهم عناصرها في الجهة الثانية. ضعها في `public/tournaments/` واكتب `tournaments/a.webp`، أو رابط كامل. بدونها تبقى البطاقة بلون اللعبة.

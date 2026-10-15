@@ -19,6 +19,8 @@ export interface Tournament {
   slots: { filled: number; total: number };
   /** Optional external registration link. No link → no register button. */
   registerUrl?: string;
+  /** Optional cover image (path under /public or full URL). Faded behind the text; no image → plain game-colour card. */
+  image?: string;
   /** Completed tournaments: who won. */
   winner?: Localized;
 }

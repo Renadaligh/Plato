@@ -1,6 +1,6 @@
 import { SHEETS } from '../config/sheets';
 import { TOURNAMENTS_SEED, type Tournament } from '../data/tournaments';
-import { fetchRows, isPublished, safeUrl, toIso, type Row } from './sheet';
+import { assetUrl, fetchRows, isPublished, safeUrl, toIso, type Row } from './sheet';
 
 const int = (v: string, d: number) => { const n = Math.floor(Number(v.replace(/[, ]/g, ''))); return Number.isFinite(n) && n >= 0 ? n : d; };
 
@@ -16,7 +16,7 @@ function fromRow(r: Row): Tournament | null {
     name: { ar: nAr, en: nEn }, format: pair('format'), prize: pair('prize'),
     startsAt, endsAt: toIso(r.ends_at ?? '') ?? startsAt,
     slots: { filled: Math.min(int(r.filled ?? '', 0), total), total },
-    registerUrl: r.register_url ? safeUrl(r.register_url) : undefined,
+    registerUrl: r.register_url ? safeUrl(r.register_url) : undefined, image: r.image ? assetUrl(r.image) : undefined,
     winner: r.winner_ar || r.winner_en ? pair('winner') : undefined,
   };
 }

@@ -60,3 +60,10 @@ export function toIso(v: string): string | undefined {
   if (!/(Z|[+-]\d{2}:?\d{2})$/i.test(s)) s += '+03:00';
   return Number.isNaN(Date.parse(s)) ? undefined : s;
 }
+
+/** Image cell → usable src: full URLs and /paths as-is, anything else is relative to the site base. */
+export function assetUrl(v: string): string | undefined {
+  const s = v.trim();
+  if (!s) return undefined;
+  return /^(https?:\/\/|\/)/i.test(s) ? s : import.meta.env.BASE_URL + s;
+}
