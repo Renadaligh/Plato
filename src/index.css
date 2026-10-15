@@ -69,3 +69,15 @@ a:focus-visible, button:focus-visible { outline: 3px solid #7fe3ff; outline-offs
 .hdr[data-solid='true'] { background: var(--nav-solid); border-bottom-color: var(--glass-b); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
 .hdr[data-solid='true']::before { opacity: 0; }
 
+
+/* Mobile: sections become horizontal swipe rails (cards side by side) to shorten the page */
+.m-rail { --gut: clamp(1.1rem, 7vw, 6.9rem); }
+.m-cont { display: contents; }
+@media (max-width: 767px) {
+  .m-rail { display: flex; gap: .9rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin-inline: calc(var(--gut) * -1); padding-inline: var(--gut); scroll-padding-inline: var(--gut); padding-bottom: .5rem; }
+  .m-rail::-webkit-scrollbar { display: none; }
+  .m-rail > *, .m-rail > .m-cont > * { flex: 0 0 84%; min-width: 0; scroll-snap-align: start; margin: 0; }
+  .m-rail > .news-skel { min-height: 18rem; }
+}
+@media (min-width: 768px) { .m-cont { display: grid; gap: 1.25rem; grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .m-cont { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

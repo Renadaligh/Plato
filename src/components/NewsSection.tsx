@@ -25,7 +25,7 @@ export default function NewsSection() {
       </div>
 
       {status === 'loading' && (
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3" aria-busy="true">
+        <div className="m-rail md:grid md:gap-5 md:grid-cols-2 lg:grid-cols-3" aria-busy="true">
           {Array.from({ length: LIMIT }, (_, i) => <div key={i} className="news-skel" />)}
         </div>
       )}
@@ -40,8 +40,8 @@ export default function NewsSection() {
       {status === 'ready' && items.length === 0 && <p style={{ color: 'var(--muted)' }}>{t.newsEmpty}</p>}
 
       {status === 'ready' && items.length > 0 && (
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {items.map((n) => <NewsCard key={n.id} item={n} />)}
+        <div className="m-rail">
+          <div className="m-cont">{items.map((n) => <NewsCard key={n.id} item={n} />)}</div>
         </div>
       )}
 

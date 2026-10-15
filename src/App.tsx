@@ -8,6 +8,7 @@ import GamesSection from './components/GamesSection';
 import GamePage from './components/GamePage';
 import TournamentsSection from './components/TournamentsSection';
 import ChampionsSection from './components/ChampionsSection';
+import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
 import CommunitySection from './components/CommunitySection';
 import SupportSection from './components/SupportSection';
@@ -34,6 +35,7 @@ function Pages() {
           </>
         )}
       </main>
+      <Footer />
       <BackToTop />
     </>
   );

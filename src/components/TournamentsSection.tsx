@@ -79,7 +79,7 @@ function Featured({ x, s }: { x: Tournament; s: TournamentStatus }) {
   const g = getGame(x.gameId);
   const c = g?.colors ?? ['#ff3b4e', '#6b0f1d'];
   return (
-    <article className="news-card relative mb-6 text-white" style={{ background: `linear-gradient(135deg, ${c[0]}, ${c[1]})`, border: 'none' }}>
+    <article className="news-card relative text-white md:mb-6" style={{ background: `linear-gradient(135deg, ${c[0]}, ${c[1]})`, border: 'none' }}>
       <div aria-hidden="true" className="absolute inset-0 opacity-[.12]" style={{ background: `url(${BASE}brand/ninja.png) 92% 50% / auto 90% no-repeat` }} />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.15))' }} aria-hidden="true" />
       <div className="relative grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
@@ -145,10 +145,10 @@ export default function TournamentsSection() {
       </div>
 
       {list.length === 0 && <p style={{ color: 'var(--muted)' }}>{t.tEmpty}</p>}
-      {featured && <Featured x={featured.x} s={featured.s} />}
-      {rest.length > 0 && (
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {rest.map((r) => <Card key={r.x.id} x={r.x} s={r.s} />)}
+      {list.length > 0 && (
+        <div className="m-rail md:block">
+          {featured && <Featured x={featured.x} s={featured.s} />}
+          {rest.length > 0 && <div className="m-cont">{rest.map((r) => <Card key={r.x.id} x={r.x} s={r.s} />)}</div>}
         </div>
       )}
 
