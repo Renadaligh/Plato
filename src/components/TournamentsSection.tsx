@@ -37,11 +37,11 @@ function Countdown({ to, label }: { to: string; label: string }) {
   return (
     <div>
       <div className="mb-2 text-[.82rem] font-semibold opacity-85">{label}</div>
-      <div className="flex gap-2.5" role="timer" aria-label={label}>
+      <div className="flex w-full gap-2 sm:gap-2.5" role="timer" aria-label={label}>
         {parts.map(([n, k]) => (
-          <div key={k} className="min-w-[3.6rem] rounded-xl border px-2.5 py-2 text-center" style={{ background: 'rgba(0,0,0,.3)', borderColor: 'rgba(255,255,255,.2)' }}>
-            <div className="text-[1.5rem] font-extrabold leading-none tabular-nums">{String(n).padStart(2, '0')}</div>
-            <div className="mt-1 text-[.7rem] opacity-80">{t[k]}</div>
+          <div key={k} className="min-w-0 flex-1 rounded-xl border px-1.5 py-2 text-center sm:min-w-[3.6rem] sm:flex-none sm:px-2.5" style={{ background: 'rgba(0,0,0,.3)', borderColor: 'rgba(255,255,255,.2)' }}>
+            <div className="text-[1.3rem] font-extrabold leading-none tabular-nums sm:text-[1.5rem]">{String(n).padStart(2, '0')}</div>
+            <div className="mt-1 truncate text-[.7rem] opacity-80">{t[k]}</div>
           </div>
         ))}
       </div>
@@ -59,7 +59,7 @@ function Facts({ x }: { x: Tournament }) {
   const { t, lang } = useI18n();
   const full = x.slots.filled >= x.slots.total;
   return (
-    <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 text-[.9rem]">
+    <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 text-[.9rem] [&>*]:min-w-0 [&_dd]:break-words">
       <div><dt className="opacity-70">{t.tPrize}</dt><dd className="font-bold">{x.prize[lang]}</dd></div>
       <div><dt className="opacity-70">{t.tFormat}</dt><dd className="font-bold">{x.format[lang]}</dd></div>
       <div className="col-span-2">
@@ -102,15 +102,15 @@ function Featured({ x, s }: { x: Tournament; s: TournamentStatus }) {
           <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.15))' }} aria-hidden="true" />
         </>
       )}
-      <div className={`relative grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:items-center ${x.image ? 'pt-32 lg:pt-8' : ''}`}>
+      <div className={`relative grid grid-cols-1 gap-6 p-5 sm:p-8 lg:grid-cols-[1.2fr_1fr] lg:items-center ${x.image ? 'pt-32 lg:pt-8' : ''}`}>
         <div className="flex flex-col">
           <div className="mb-3 flex flex-wrap items-center gap-3"><StatusPill s={s} />{g && <span className="text-[.85rem] font-semibold opacity-90">{g.name[lang]}</span>}</div>
-          <h3 className="text-[clamp(1.5rem,3vw,2.3rem)] font-extrabold leading-tight">{x.name[lang]}</h3>
+          <h3 className="text-[clamp(1.4rem,3vw,2.3rem)] font-extrabold leading-tight [overflow-wrap:anywhere]">{x.name[lang]}</h3>
           <p className="mt-1.5 text-[.95rem] opacity-85">{fmt(x.startsAt)}</p>
           <Facts x={x} />
           <Register x={x} s={s} />
         </div>
-        <div className="lg:justify-self-end"><Countdown to={s === 'live' ? x.endsAt : x.startsAt} label={s === 'live' ? t.tEndsIn : t.tStartsIn} /></div>
+        <div className="min-w-0 lg:justify-self-end"><Countdown to={s === 'live' ? x.endsAt : x.startsAt} label={s === 'live' ? t.tEndsIn : t.tStartsIn} /></div>
       </div>
     </article>
   );
@@ -130,7 +130,7 @@ function Card({ x, s }: { x: Tournament; s: TournamentStatus }) {
         </>
       )}
       <div className="relative h-1.5" style={{ background: `linear-gradient(90deg, ${c[0]}, ${c[1]})` }} aria-hidden="true" />
-      <div className={`relative flex flex-1 flex-col p-5 ${x.image ? 'pt-24' : ''}`}>
+      <div className={`relative flex min-w-0 flex-1 flex-col p-5 ${x.image ? 'pt-24' : ''}`}>
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><StatusPill s={s} />{g && <span className="text-[.82rem] font-semibold" style={{ color: 'var(--muted)' }}>{g.name[lang]}</span>}</div>
         <h3 className="text-[1.15rem] font-semibold leading-snug">{x.name[lang]}</h3>
         <p className="mt-1 text-[.88rem]" style={{ color: 'var(--muted)' }}><time dateTime={x.startsAt}>{fmt(x.startsAt)}</time></p>

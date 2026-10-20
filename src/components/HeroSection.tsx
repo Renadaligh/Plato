@@ -15,7 +15,7 @@ export default function HeroSection() {
       {/* soft top shade keeps the glass header readable over the bright footage */}
       <div className="hero-topshade pointer-events-none absolute inset-0" />
       {/* "ELITE" sits at ~31–39% of the footage height, so the copy starts just below it */}
-      <div className="relative z-10 flex flex-1 flex-col items-center px-[clamp(1.1rem,5vw,5rem)] pb-[12vh] pt-[max(43svh,9rem)] max-md:pt-[max(34svh,8rem)] [@media(max-height:560px)]:pt-[48svh]">
+      <div className="relative z-10 flex flex-1 flex-col items-center px-[clamp(1.1rem,5vw,5rem)] pb-[12vh] pt-[max(43svh,9rem)] max-md:pt-[max(35svh,8rem)] [@media(max-height:560px)]:pt-[48svh]">
         <HeroContent />
       </div>
       <a href="#news" aria-label={t.scrollDown} className="scroll-cue absolute bottom-5 left-1/2 z-[11] -translate-x-1/2 sm:bottom-7">
