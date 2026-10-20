@@ -5,10 +5,10 @@ import { assetUrl, fetchRows, isPublished, safeUrl, toIso, type Row } from './sh
 const int = (v: string, d: number) => { const n = Math.floor(Number(v.replace(/[, ]/g, ''))); return Number.isFinite(n) && n >= 0 ? n : d; };
 
 function fromRow(r: Row): Tournament | null {
-  if (!isPublished(r)) return null;
+  if (!isPublished(r)) { console.warn('[tournaments] skipped (published=false):', r.id); return null; }
   const startsAt = toIso(r.starts_at ?? '');
   const nAr = r.name_ar || r.name_en, nEn = r.name_en || r.name_ar;
-  if (!startsAt || !nAr) return null;
+  if (!startsAt || !nAr) { console.warn('[tournaments] skipped row:', { id: r.id, starts_at: r.starts_at, name_ar: r.name_ar, name_en: r.name_en, keys: Object.keys(r) }); return null; }
   const pair = (k: string) => ({ ar: r[`${k}_ar`] || r[`${k}_en`] || '', en: r[`${k}_en`] || r[`${k}_ar`] || '' });
   const total = Math.max(1, int(r.total ?? '', 1));
   return {
@@ -25,5 +25,6 @@ function fromRow(r: Row): Tournament | null {
 export async function getTournaments(signal?: AbortSignal): Promise<Tournament[]> {
   if (!SHEETS.tournaments) return TOURNAMENTS_SEED;
   const rows = await fetchRows(SHEETS.tournaments, signal);
+  console.info('[tournaments] rows read from sheet:', rows.length, rows[0]);
   return rows.map(fromRow).filter((x): x is Tournament => x !== null);
 }
