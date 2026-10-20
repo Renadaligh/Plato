@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import RegisterDialog from './RegisterDialog';
 import { getGame } from '../data/games';
 import { SHEETS } from '../config/sheets';
 import { useTournaments } from '../hooks/useTournaments';
@@ -71,8 +72,16 @@ function Facts({ x }: { x: Tournament }) {
 
 function Register({ x, s }: { x: Tournament; s: TournamentStatus }) {
   const { t } = useI18n();
-  if (s !== 'upcoming' || !x.registerUrl || x.slots.filled >= x.slots.total) return null;
-  return <a href={x.registerUrl} target="_blank" rel="noopener noreferrer" className="btn-primary mt-5 self-start">{t.tRegister} <ArrowIcon className="h-4 w-4 rtl:rotate-180" /></a>;
+  const [open, setOpen] = useState(false);
+  if (s !== 'upcoming' || x.slots.filled >= x.slots.total) return null;
+  if (x.registerUrl) return <a href={x.registerUrl} target="_blank" rel="noopener noreferrer" className="btn-primary mt-5 self-start">{t.tRegister} <ArrowIcon className="h-4 w-4 rtl:rotate-180" /></a>;
+  if (!SHEETS.register) return null;
+  return (
+    <>
+      <button type="button" className="btn-primary mt-5 self-start" onClick={() => setOpen(true)}>{t.tRegister} <ArrowIcon className="h-4 w-4 rtl:rotate-180" /></button>
+      {open && <RegisterDialog x={x} onClose={() => setOpen(false)} />}
+    </>
+  );
 }
 
 function Featured({ x, s }: { x: Tournament; s: TournamentStatus }) {

@@ -16,6 +16,7 @@ function fromRow(r: Row): Tournament | null {
     name: { ar: nAr, en: nEn }, format: pair('format'), prize: pair('prize'),
     startsAt, endsAt: toIso(r.ends_at ?? '') ?? startsAt,
     slots: { filled: Math.min(int(r.filled ?? '', 0), total), total },
+    mode: (r.mode ?? '').toLowerCase() === 'team' ? 'team' : 'solo',
     registerUrl: r.register_url ? safeUrl(r.register_url) : undefined, image: r.image ? assetUrl(r.image) : undefined,
     winner: r.winner_ar || r.winner_en ? pair('winner') : undefined,
   };

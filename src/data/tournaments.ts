@@ -17,6 +17,8 @@ export interface Tournament {
   /** Free text so any currency works, e.g. "10,000 SAR". */
   prize: Localized;
   slots: { filled: number; total: number };
+  /** solo = one Plato ID; team = team name + captain + members. Default solo. */
+  mode?: 'solo' | 'team';
   /** Optional external registration link. No link → no register button. */
   registerUrl?: string;
   /** Optional cover image (path under /public or full URL). Faded behind the text; no image → plain game-colour card. */
