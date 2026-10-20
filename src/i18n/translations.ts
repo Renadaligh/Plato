@@ -13,9 +13,9 @@ const en = {
   tStartsIn: 'Starts in', tEndsIn: 'Ends in', cdDays: 'Days', cdHours: 'Hours', cdMins: 'Min', cdSecs: 'Sec', tEmpty: 'No tournaments in this category yet.', tournExample: 'Example tournaments — real events will replace these.',
   chTitle: 'Champions', chSub: 'The winners of Plato tournaments.', 
   
-  aboutText: 'Placeholder text: a short introduction to the Elite community — who we are, what we play, and why players join us. This copy will be replaced with the final text.',
+  aboutText: "ELITE - The community of Plato's elite players",
   
-  desc: 'Dive into a world of fun games, exciting tournaments, and an amazing community.',
+  desc: "ELITE - The community of Plato's elite players",
   ctaGames: 'Explore Games', ctaTournaments: 'View Tournaments',
   menu: 'Menu', closeMenu: 'Close menu', switchLang: 'Switch language',
   soon: 'Coming soon', langCode: 'EN',
@@ -38,9 +38,9 @@ const ar: Dict = {
   tStartsIn: 'تبدأ بعد', tEndsIn: 'تنتهي بعد', cdDays: 'يوم', cdHours: 'ساعة', cdMins: 'دقيقة', cdSecs: 'ثانية', tEmpty: 'لا توجد بطولات في هذا التصنيف بعد.', tournExample: 'بطولات تجريبية — ستحل الأحداث الحقيقية محلها.',
   chTitle: 'الأبطال', chSub: 'فائزو بطولات بلاتو.', 
   
-  aboutText: 'نص تجريبي: نبذة تعريفية قصيرة عن مجتمع إيليت — من نحن، وماذا نلعب، ولماذا ينضم إلينا اللاعبون. سيتم استبدال هذا النص بالنص النهائي.',
+  aboutText: 'ELITE - مُجتمع نخبة لاعبي بلاتو',
   
-  desc: 'اكتشف ألعابك المفضلة، وشارك في البطولات، وتواصل مع مجتمع بلاتو.',
+  desc: 'ELITE - مُجتمع نخبة لاعبي بلاتو',
   ctaGames: 'استكشف الألعاب', ctaTournaments: 'استعرض البطولات',
   menu: 'القائمة', closeMenu: 'إغلاق القائمة', switchLang: 'تبديل اللغة',
   soon: 'قريباً', langCode: 'ع',
