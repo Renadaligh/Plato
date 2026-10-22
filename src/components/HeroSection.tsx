@@ -116,7 +116,7 @@ export default function HeroSection() {
               </span>)}
             </button></div>
           </div>
-          {!hasRolled && <span className="plato-ref-click-hint" aria-hidden="true"><span className="plato-ref-click-hint-icon">↗</span>{rtl ? 'اضغط لرمي النرد' : 'Click to Roll'}</span>}
+          {!hasRolled && <span className="plato-ref-click-hint" aria-hidden="true"><span className="plato-ref-click-hint-icon">{rtl ? '←' : '↗'}</span>{rtl ? 'اضغط لرمي النرد' : 'Click to Roll'}</span>}
           <span className="sr-only" role="status" aria-live="polite">{result === null ? '' : (rtl ? `نتيجة النرد ${result}` : `Dice rolled ${result}`)}</span>
           <div className="plato-ref-shadow" aria-hidden="true"/>
         </div>

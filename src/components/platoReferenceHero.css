@@ -128,3 +128,24 @@
   }
   .plato-ref-click-hint-icon { color: #a4c8ff; }
 }
+
+/* Mobile: move the hint to the quiet side of the die, mirroring placement by language. */
+@media (max-width: 600px) {
+  .plato-ref-click-hint {
+    left: 35%;
+    right: auto;
+    bottom: 8px;
+    transform: translateX(-50%);
+    direction: ltr;
+    gap: 6px;
+    white-space: nowrap;
+    text-align: center;
+  }
+  [dir="rtl"] .plato-ref-click-hint {
+    left: 67%;
+    right: auto;
+    transform: translateX(-50%);
+    direction: rtl;
+  }
+  [dir="rtl"] .plato-ref-click-hint-icon { font-size: 17px; }
+}
