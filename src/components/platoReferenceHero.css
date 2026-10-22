@@ -93,3 +93,38 @@
 @keyframes platoRefHintTap{0%,100%{transform:scale(1)}55%{transform:scale(.8)}}
 @media(max-width:980px){.plato-ref-click-hint{bottom:-11px}}
 @media(prefers-reduced-motion:reduce){.plato-ref-click-hint,.plato-ref-click-hint-icon{animation:none}}
+
+/* Smoothly blend the hero into the background of the next section. */
+.plato-ref-hero::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset-inline: 0;
+  bottom: 0;
+  height: clamp(90px, 14vh, 170px);
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent 0%, var(--bg, #050507) 100%);
+}
+.plato-ref-scroll { z-index: 4; }
+
+/* Phones: a simple unframed prompt, centered just beneath the die. */
+@media (max-width: 600px) {
+  .plato-ref-click-hint {
+    left: 50%;
+    right: auto;
+    inset-inline-start: auto;
+    bottom: 10px;
+    transform: translateX(-50%);
+    padding: 3px 6px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    color: #e4eeff;
+    font-size: 12px;
+    text-shadow: 0 2px 9px rgba(5, 15, 55, .8);
+  }
+  .plato-ref-click-hint-icon { color: #a4c8ff; }
+}
