@@ -16,12 +16,13 @@ const en = {
   aboutText: "ELITE - The community of Plato's elite players",
   
   desc: "ELITE - The community of Plato's elite players",
-  ctaGames: 'Explore Games', ctaTournaments: 'View Tournaments',
+  heroEyebrow: 'Plato AR', heroL1: 'PLAY.', heroL2: 'COMPETE.', heroL3: 'CONNECT.', heroDesc: "The Arabic Plato community — games, tournaments, and people who play to win.",
+  ctaGames: 'Explore Games', ctaTournaments: 'View Tournaments', heroStatGames: 'Games', heroStatTournaments: 'Tournaments', heroStatPlayers: 'Players', heroStatCommunity: 'Community', heroStatCommunityValue: 'Growing',
   menu: 'Menu', closeMenu: 'Close menu', switchLang: 'Switch language',
   soon: 'Coming soon', langCode: 'EN',
   regTitle: 'Register', regFor: 'Tournament', regPlatoId: 'Your Plato ID', regTeamName: 'Team name', regCaptain: 'Team captain Plato ID', regCaptainNote: 'Used to contact the team.', regMembers: "Other members' Plato IDs", regMembersNote: 'One ID per line.', regSubmit: 'Submit', regSending: 'Sending…', regDone: 'You are in the arena ⚔️', regDoneSub: 'We will contact you soon.', regErr: 'Could not send. Please try again.', regDup: 'This ID is already registered for this tournament.', regRequired: 'Please fill in all fields.', regClose: 'Close',
   tError: 'Could not load the tournaments.', footPlato: 'Plato', footElite: 'Elite', footRights: 'All rights reserved.', footNote: 'Plato and Elite are independent and not affiliated with any game publisher. All game names and trademarks belong to their respective owners.',
-  artAlt: 'A fantasy hero crouching on a floating stone platform among floating islands and a glowing citadel',
+  artAlt: 'A cheerful dice mascot leaping among chess pieces, cards, chips and game props in a glowing arena',
 };
 export type Dict = Record<keyof typeof en, string>;
 
@@ -41,11 +42,12 @@ const ar: Dict = {
   aboutText: 'ELITE - مُجتمع نخبة لاعبي بلاتو',
   
   desc: 'ELITE - مُجتمع نخبة لاعبي بلاتو',
-  ctaGames: 'استكشف الألعاب', ctaTournaments: 'استعرض البطولات',
+  heroEyebrow: 'Plato بالعربية', heroL1: 'العب.', heroL2: 'نافس.', heroL3: 'تواصل.', heroDesc: 'مجتمع بلاتو بالعربية — ألعاب وبطولات ولاعبين يجتمعون للمنافسة والمتعة.',
+  ctaGames: 'استكشف الألعاب', ctaTournaments: 'استعرض البطولات', heroStatGames: 'لعبة', heroStatTournaments: 'بطولة', heroStatPlayers: 'لاعب', heroStatCommunity: 'مجتمع', heroStatCommunityValue: 'متنامٍ',
   menu: 'القائمة', closeMenu: 'إغلاق القائمة', switchLang: 'تبديل اللغة',
   soon: 'قريباً', langCode: 'ع',
   regTitle: 'التسجيل', regFor: 'البطولة', regPlatoId: 'معرّفك في بلاتو', regTeamName: 'اسم الفريق', regCaptain: 'معرّف قائد الفريق في بلاتو', regCaptainNote: 'نستخدم معرّف القائد للتواصل مع الفريق.', regMembers: 'معرّفات باقي اللاعبين في بلاتو', regMembersNote: 'معرّف كل لاعب في سطر.', regSubmit: 'إرسال', regSending: 'جاري الإرسال…', regDone: 'أنت الآن في الحلبة ⚔️', regDoneSub: 'بنتواصل معك قريباً.', regErr: 'تعذّر الإرسال، حاول مرة ثانية.', regDup: 'هذا المعرّف مسجّل مسبقاً في هذه البطولة.', regRequired: 'عبّي كل الخانات.', regClose: 'إغلاق',
   tError: 'تعذّر تحميل البطولات.', footPlato: 'بلاتو', footElite: 'إيليت', footRights: 'جميع الحقوق محفوظة.', footNote: 'منصة بلاتو وفريق إيليت مستقلان وغير تابعين لأي ناشر ألعاب. جميع أسماء الألعاب والعلامات التجارية ملك لأصحابها.',
-  artAlt: 'بطل خيالي يجثو على منصة حجرية عائمة بين جزر طائرة وقلعة متوهجة',
+  artAlt: 'نرد مبتسم يقفز بين قطع الشطرنج وبطاقات اللعب وأدوات الألعاب في ساحة متوهجة',
 };
 export const translations: Record<Lang, Dict> = { en, ar };

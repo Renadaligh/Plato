@@ -5,18 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#050507" />
     <title>Plato — Play. Compete. Connect.</title>
-    <link rel="preload" as="image" href="%BASE_URL%art/hero-scene.webp" type="image/webp" />
+    <link rel="preload" as="image" href="%BASE_URL%art/hero/bg-dark.webp" type="image/webp" />
     <script>
       try {
         var d = document.documentElement;
         var l = localStorage.getItem('plato-lang') || 'en';
         d.lang = l; d.dir = l === 'ar' ? 'rtl' : 'ltr';
+        var th = localStorage.getItem('plato-theme');
+        d.setAttribute('data-theme', th === 'light' ? 'light' : 'dark');
       } catch (e) {}
     </script>
     <style>
       html, body { margin: 0; background: #050507; }
       /* Shown instantly (before the JS bundle arrives) so phones never see an empty black screen; removed in main.tsx. */
-      #boot { position: fixed; inset: 0; z-index: 100; pointer-events: none; background: #050507 url(%BASE_URL%art/hero-scene.webp) center / cover no-repeat; transition: opacity 1.2s ease; }
+      #boot { position: fixed; inset: 0; z-index: 100; pointer-events: none; background: #050507 url(%BASE_URL%art/hero/bg-dark.webp) right bottom / cover no-repeat; transition: opacity 1.2s ease; }
+      html[data-theme='light'] #boot { background-image: url(%BASE_URL%art/hero/bg-light.webp); }
+      html[dir='rtl'] #boot { transform: scaleX(-1); }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

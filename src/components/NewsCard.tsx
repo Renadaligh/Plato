@@ -5,7 +5,7 @@ import type { Dict } from '../i18n/translations';
 
 const BASE = import.meta.env.BASE_URL;
 export const TAG_KEY: Record<NewsTag, keyof Dict> = { update: 'tagUpdate', tournament: 'tagTournament', community: 'tagCommunity', event: 'tagEvent' };
-const TAG_DOT: Record<NewsTag, string> = { update: '#ff3b4e', tournament: '#ffb02e', community: '#5aa2ff', event: '#7be07a' };
+const TAG_DOT: Record<NewsTag, string> = { update: '#4d8dff', tournament: '#ffb02e', community: '#5aa2ff', event: '#7be07a' };
 
 type Vars = CSSProperties & { [k: `--${string}`]: string };
 

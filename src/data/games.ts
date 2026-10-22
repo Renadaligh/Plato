@@ -43,7 +43,7 @@ const over = L('Placeholder overview. A general introduction to the game and why
 const vids = [{ title: L('Beginner tutorial', 'شرح للمبتدئين') }, { title: L('Pro gameplay highlights', 'أبرز لقطات المحترفين') }];
 
 export const GAMES: Game[] = [
-  { id: 'rift-arena', name: L('Rift Arena', 'ريفت أرينا'), genre: L('Team Battle', 'قتال جماعي'), tagline: L('Fast five-versus-five fights over shifting arenas.', 'معارك سريعة خمسة ضد خمسة داخل ساحات متغيّرة.'), colors: ['#ff3b4e', '#6b0f1d'], overview: over, howToPlay: how, mechanics: mech, videos: vids },
+  { id: 'rift-arena', name: L('Rift Arena', 'ريفت أرينا'), genre: L('Team Battle', 'قتال جماعي'), tagline: L('Fast five-versus-five fights over shifting arenas.', 'معارك سريعة خمسة ضد خمسة داخل ساحات متغيّرة.'), colors: ['#ff3b4e', '#0f2a6b'], overview: over, howToPlay: how, mechanics: mech, videos: vids },
   { id: 'night-raid', name: L('Night Raid', 'نايت ريد'), genre: L('Battle Royale', 'باتل رويال'), tagline: L('Drop in, scavenge, and be the last squad standing.', 'انزل، اجمع العتاد، وكن آخر فريق صامد.'), colors: ['#7a5cff', '#1a1040'], overview: over, howToPlay: how, mechanics: mech, videos: vids },
   { id: 'velocity', name: L('Velocity', 'فيلوسيتي'), genre: L('Racing', 'سباقات'), tagline: L('Drift through neon tracks and beat the clock.', 'انزلق عبر مضامير نيون وتغلّب على الوقت.'), colors: ['#18c8ff', '#06304a'], overview: over, howToPlay: how, mechanics: mech},
   { id: 'iron-siege', name: L('Iron Siege', 'آيرن سيج'), genre: L('Strategy', 'استراتيجية'), tagline: L('Build, defend, and break the enemy fortress.', 'ابنِ، دافع، واكسر قلعة الخصم.'), colors: ['#ffb02e', '#4a2c04'], overview: over, howToPlay: how, mechanics: mech, videos: vids },
