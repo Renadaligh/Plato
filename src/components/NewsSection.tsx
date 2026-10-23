@@ -11,7 +11,7 @@ export default function NewsSection() {
   const { t } = useI18n();
   const { items, status, retry } = useNews(LIMIT);
   const root = useRef<HTMLElement>(null);
-  useCardsReveal(root, status === 'ready', [items]);
+  useCardsReveal(root, status === 'ready', []); // animate once on first load; later silent refreshes just swap the content in
 
   return (
     <section id="news" ref={root} aria-labelledby="news-title" className="scroll-mt-20 px-[clamp(1.1rem,7vw,6.9rem)] py-[clamp(3rem,8vw,6rem)]" style={{ background: 'var(--bg)' }}>
