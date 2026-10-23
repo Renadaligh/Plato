@@ -9,7 +9,6 @@ import { useI18n } from '../i18n/I18nProvider';
 import type { Dict } from '../i18n/translations';
 import { ArrowIcon } from './icons';
 
-const BASE = import.meta.env.BASE_URL;
 type Tab = 'all' | TournamentStatus;
 const TABS: Tab[] = ['all', 'live', 'upcoming', 'completed'];
 const TAB_KEY: Record<Tab, keyof Dict> = { all: 'tabAll', live: 'tabLive', upcoming: 'tabUpcoming', completed: 'tabDone' };
@@ -98,7 +97,6 @@ function Featured({ x, s }: { x: Tournament; s: TournamentStatus }) {
         </>
       ) : (
         <>
-          <div aria-hidden="true" className="absolute inset-0 opacity-[.12]" style={{ background: `url(${BASE}brand/ninja.png) 92% 50% / auto 90% no-repeat` }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.15))' }} aria-hidden="true" />
         </>
       )}

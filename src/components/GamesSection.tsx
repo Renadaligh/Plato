@@ -1,9 +1,18 @@
-import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent } from 'react';
 import { GAMES, SHOW_EXAMPLE_GAMES, type Game } from '../data/games';
 import { useI18n } from '../i18n/I18nProvider';
 import { ArrowIcon } from './icons';
 
 const BASE = import.meta.env.BASE_URL;
+
+function OfficialGameImage({ src }: { src: string }) {
+  const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(false), [src]);
+  return failed ? <div className="gcard-art" /> : (
+    <img src={src} alt="" draggable={false} loading="lazy" onError={() => setFailed(true)} className="absolute inset-0 h-full w-full object-cover scale-[1.35] origin-center" />
+  );
+}
+
 type Vars = CSSProperties & { [k: `--${string}`]: string };
 
 function useWide() {
@@ -24,10 +33,18 @@ export default function GamesSection() {
   const { t, lang, dir } = useI18n();
   const wide = useWide();
   const [index, setIndex] = useState(0);
+  const [category, setCategory] = useState('all');
+  const categories = useMemo(() => {
+    const found = new Map<string, { en: string; ar: string }>();
+    GAMES.forEach((g) => found.set(g.genre.en, g.genre));
+    return [...found.values()];
+  }, []);
+  const games = useMemo(() => category === 'all' ? GAMES : GAMES.filter(g => g.genre.en === category), [category]);
+  const chooseCategory = (id: string) => { setCategory(id); setIndex(0); setLeaving(false); };
   const [leaving, setLeaving] = useState(false);
   const sign = dir === 'rtl' ? -1 : 1;
   const span = wide ? 2 : 1;
-  const n = GAMES.length;
+  const n = games.length;
   const timer = useRef<number>();
   const drag = useRef({ x: 0, down: false, moved: false });
   useEffect(() => () => window.clearTimeout(timer.current), []);
@@ -63,8 +80,8 @@ export default function GamesSection() {
   };
 
   const cw = wide ? 'clamp(210px, 19vw, 290px)' : 'min(60vw, 250px)';
-  const stage: Vars = { '--cw': cw, '--wm': `url(${BASE}brand/ninja.png)`, height: 'calc(var(--cw) * 1.4 + 2.5rem)' };
-  const active = GAMES[index];
+  const stage: Vars = { '--cw': cw, '--wm': `url(${BASE}brand/cube.png)`, height: 'calc(var(--cw) * 1.4 + 2.5rem)' };
+  const active = games[index];
 
   return (
     <section id="games" aria-labelledby="games-title" className="scroll-mt-20 overflow-x-clip px-[clamp(1.1rem,7vw,6.9rem)] py-[clamp(3rem,8vw,6rem)]" style={{ background: 'var(--bg)' }}>
@@ -73,11 +90,24 @@ export default function GamesSection() {
         <p className="mt-2" style={{ color: 'var(--muted)' }}>{t.gamesSub}</p>
       </div>
 
-      <div className={`gstage mt-10 ${leaving ? 'is-leaving' : ''}`}>
+      <div className="mx-auto mt-7 flex max-w-[65rem] flex-wrap items-center justify-center gap-2" role="group" aria-label={lang === 'ar' ? 'تصفية الألعاب حسب التصنيف' : 'Filter games by category'}>
+        {[{en: 'All', ar: 'الكل'}, ...categories].map((c, i) => {
+          const id = i === 0 ? 'all' : c.en;
+          const selected = category === id;
+          return <button key={id} type="button" aria-pressed={selected} onClick={() => chooseCategory(id)}
+            className="rounded-full border px-4 py-2 text-sm font-semibold transition-colors duration-200"
+            style={{ borderColor: selected ? '#477aff' : 'var(--glass-b)', color: selected ? '#fff' : 'var(--muted)',
+              background: selected ? 'linear-gradient(115deg,#356dff,#254bba)' : 'var(--glass)' }}>
+            {c[lang]} <span className="ms-1 opacity-70">{i === 0 ? GAMES.length : GAMES.filter(g => g.genre.en === id).length}</span>
+          </button>;
+        })}
+      </div>
+
+      <div className={`gstage mt-7 ${leaving ? 'is-leaving' : ''}`}>
         <div role="region" aria-roledescription="carousel" aria-label={t.gamesTitle} tabIndex={0} onKeyDown={onKey}
           onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}
           className="relative mx-auto w-full max-w-[72rem] touch-pan-y rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-[var(--link-on)]" style={stage}>
-          {GAMES.map((g, i) => {
+          {games.map((g, i) => {
             const o = i - index;
             const a = Math.abs(o);
             const shown = a <= span;
@@ -98,8 +128,9 @@ export default function GamesSection() {
                   if (drag.current.moved) return;
                   if (o === 0) go(g); else setIndex(i);
                 }}>
-                {g.image ? <img src={g.image} alt="" draggable={false} loading="lazy" className="absolute inset-0 h-full w-full object-cover" /> : <div className="gcard-art" />}
-                <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+                {g.image ? <OfficialGameImage key={g.id} src={g.image} /> : <div className="gcard-art" />}
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{background:'linear-gradient(to top, rgba(5,9,28,.97) 0%,rgba(5,9,28,.83) 18%,rgba(5,9,28,.35) 45%,transparent 76%)'}} />
+                <div className="absolute inset-x-0 bottom-0 z-10 p-4 text-white sm:p-5">
                   <span className="text-[.78rem] font-semibold opacity-85">{g.genre[lang]}</span>
                   <div className="text-[clamp(1.15rem,1.8vw,1.55rem)] font-extrabold leading-tight">{g.name[lang]}</div>
                 </div>
@@ -119,9 +150,9 @@ export default function GamesSection() {
         <div className="mt-6 flex items-center justify-center gap-4">
           <button type="button" className="pill !px-0 disabled:opacity-35" onClick={() => step(-1)} disabled={index === 0} aria-label={t.gamesPrev}><ArrowIcon className="h-5 w-5 rotate-180 rtl:rotate-0" /></button>
           <div className="flex gap-2">
-            {GAMES.map((g, i) => (
+            {games.length <= 12 ? games.map((g, i) => (
               <button key={g.id} type="button" aria-label={g.name[lang]} aria-current={i === index} onClick={() => setIndex(i)} className="h-2 rounded-full transition-all" style={{ width: i === index ? '1.6rem' : '.5rem', background: i === index ? 'var(--link-on)' : 'var(--glass-b)' }} />
-            ))}
+            )) : <span className="min-w-[5rem] text-center text-sm font-semibold tabular-nums" style={{color:'var(--muted)'}}>{index + 1} / {n}</span>}
           </div>
           <button type="button" className="pill !px-0 disabled:opacity-35" onClick={() => step(1)} disabled={index === n - 1} aria-label={t.gamesNext}><ArrowIcon className="h-5 w-5 rtl:rotate-180" /></button>
         </div>

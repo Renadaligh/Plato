@@ -1,23 +1,19 @@
-import type { CSSProperties } from 'react';
 import type { NewsItem, NewsTag } from '../data/news';
 import { useI18n } from '../i18n/I18nProvider';
 import type { Dict } from '../i18n/translations';
 
-const BASE = import.meta.env.BASE_URL;
 export const TAG_KEY: Record<NewsTag, keyof Dict> = { update: 'tagUpdate', tournament: 'tagTournament', community: 'tagCommunity', event: 'tagEvent' };
 const TAG_DOT: Record<NewsTag, string> = { update: '#4d8dff', tournament: '#ffb02e', community: '#5aa2ff', event: '#7be07a' };
 
-type Vars = CSSProperties & { [k: `--${string}`]: string };
 
 export default function NewsCard({ item }: { item: NewsItem }) {
   const { lang, t } = useI18n();
   const date = new Intl.DateTimeFormat(lang === 'ar' ? 'ar-SA-u-ca-gregory' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(item.date));
   const title = item.title[lang];
-  const wm: Vars = { '--wm': `url(${BASE}brand/ninja.png)` };
 
   return (
     <article className="news-card news-card-hover group">
-      <div className="news-art" style={item.image ? undefined : wm}>
+      <div className="news-art">
         {item.image && <img src={item.image} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />}
       </div>
       <div className="flex flex-col gap-2.5 p-5">

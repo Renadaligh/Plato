@@ -5,7 +5,6 @@ import { statusOf, tournamentsForGame } from '../data/tournaments';
 import { useI18n } from '../i18n/I18nProvider';
 import { ArrowIcon } from './icons';
 
-const BASE = import.meta.env.BASE_URL;
 const WRAP = 'px-[clamp(1.1rem,7vw,6.9rem)]';
 
 function Block({ title, children }: { title: string; children: ReactNode }) {
@@ -50,7 +49,6 @@ export default function GamePage({ id }: { id: string }) {
       <header className={`relative isolate overflow-hidden pb-14 pt-[clamp(6.5rem,12vw,9rem)] ${WRAP}`} style={{ background: `linear-gradient(135deg, ${g.colors[0]}, ${g.colors[1]})` }}>
         {g.image && <img src={g.image} alt="" className="absolute inset-0 -z-10 h-full w-full object-cover" />}
         <div aria-hidden="true" className="absolute inset-0 -z-10" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,.35), var(--bg))' }} />
-        <div aria-hidden="true" className="absolute -z-10 h-[140%] w-[40%] opacity-[.12] end-[4%] top-[-10%]" style={{ background: `url(${BASE}brand/ninja.png) center / contain no-repeat` }} />
         <div className="mb-6 text-white">{back}</div>
         <span className="inline-block rounded-full border px-3.5 py-1 text-[.82rem] font-semibold" style={{ borderColor: 'rgba(255,255,255,.4)', background: 'rgba(0,0,0,.25)' }}>{g.genre[lang]}</span>
         <h1 className="mt-4 font-display text-[clamp(2.2rem,6vw,4.5rem)] font-black leading-tight rtl:font-sans rtl:font-extrabold">{g.name[lang]}</h1>

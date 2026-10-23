@@ -1,53 +1,90 @@
 import type { Localized } from './news';
 
-/**
- * Game catalogue + PLACEHOLDER content (fictional titles). Replace with the real games.
- * Every optional list below hides its whole section on the game page when empty/missing.
+/** Official names/categories based on Plato's games catalogue (October 2026).
+ * Icon URL convention is based on the verified official Poker asset path.
+ * Individual image endpoints may vary; GamesSection uses a fallback on errors.
  */
 export interface Game {
-  /** URL slug: the game page lives at #/games/<id>. */
   id: string;
   name: Localized;
   genre: Localized;
-  /** One or two sentences, shown under the carousel and at the top of the game page. */
   tagline: Localized;
-  /** Two gradient colours for the card / cover until real artwork is added. */
   colors: [string, string];
-  /** Optional card + cover image (path under /public or URL). */
   image?: string;
   overview: Localized;
   howToPlay?: Localized[];
   mechanics?: Localized[];
-  /** Image URLs. Without them the page shows labelled placeholder tiles. */
   screenshots?: string[];
-  /** YouTube video ids (privacy-enhanced embed). Without an id the tile shows "coming soon". */
   videos?: { title: Localized; youtubeId?: string }[];
 }
-
-/** Set to false once real games replace the placeholders. */
-export const SHOW_EXAMPLE_GAMES = true;
-
+export const SHOW_EXAMPLE_GAMES = false;
 const L = (en: string, ar: string): Localized => ({ en, ar });
-const how = [
-  L('Create your account and join a lobby.', 'أنشئ حسابك وانضم إلى غرفة اللعب.'),
-  L('Pick your role or loadout before the match starts.', 'اختر دورك أو عتادك قبل بدء المباراة.'),
-  L('Work with your team toward the match objective.', 'تعاون مع فريقك لتحقيق هدف المباراة.'),
-  L('Win the round, climb the ranks, repeat.', 'اكسب الجولة، تقدّم في التصنيف، وكرّر.'),
-];
-const mech = [
-  L('Placeholder rule: short rounds with a clear objective.', 'قاعدة تجريبية: جولات قصيرة بهدف واضح.'),
-  L('Placeholder rule: teams of two to five players.', 'قاعدة تجريبية: فرق من لاعبَين إلى خمسة.'),
-  L('Placeholder rule: ranked seasons reset every few months.', 'قاعدة تجريبية: تُعاد المواسم المصنّفة كل بضعة أشهر.'),
-];
-const over = L('Placeholder overview. A general introduction to the game and why it is part of the Plato catalogue will go here.', 'نظرة عامة تجريبية. ستُكتب هنا مقدمة عامة عن اللعبة وسبب وجودها في كتالوج بلاتو.');
-const vids = [{ title: L('Beginner tutorial', 'شرح للمبتدئين') }, { title: L('Pro gameplay highlights', 'أبرز لقطات المحترفين') }];
-
+const genres: Record<string, Localized> = {
+  Arcade: L('Arcade', 'أركيد'), Board: L('Board', 'ألعاب لوحية'),
+  Card: L('Card', 'ألعاب ورق'), Social: L('Social', 'اجتماعية'),
+  Sports: L('Sports', 'رياضة'), Word: L('Word', 'كلمات'),
+};
+const palette: Record<string, [string, string]> = {
+  Arcade: ['#306ad9','#111d4c'], Board: ['#6b5eaa','#1c244c'],
+  Card: ['#ce526d','#401b49'], Social: ['#9864c9','#28214f'],
+  Sports: ['#2798ab','#132f55'], Word: ['#af7c42','#44315c'],
+};
+// The official icon naming convention is not guaranteed for every game.
+const icon = (slug: string) => `https://plato-image-assets-prod.platocdn.com/games/${slug}/icon_${slug}.webp`;
 export const GAMES: Game[] = [
-  { id: 'rift-arena', name: L('Rift Arena', 'ريفت أرينا'), genre: L('Team Battle', 'قتال جماعي'), tagline: L('Fast five-versus-five fights over shifting arenas.', 'معارك سريعة خمسة ضد خمسة داخل ساحات متغيّرة.'), colors: ['#ff3b4e', '#0f2a6b'], overview: over, howToPlay: how, mechanics: mech, videos: vids },
-  { id: 'night-raid', name: L('Night Raid', 'نايت ريد'), genre: L('Battle Royale', 'باتل رويال'), tagline: L('Drop in, scavenge, and be the last squad standing.', 'انزل، اجمع العتاد، وكن آخر فريق صامد.'), colors: ['#7a5cff', '#1a1040'], overview: over, howToPlay: how, mechanics: mech, videos: vids },
-  { id: 'velocity', name: L('Velocity', 'فيلوسيتي'), genre: L('Racing', 'سباقات'), tagline: L('Drift through neon tracks and beat the clock.', 'انزلق عبر مضامير نيون وتغلّب على الوقت.'), colors: ['#18c8ff', '#06304a'], overview: over, howToPlay: how, mechanics: mech},
-  { id: 'iron-siege', name: L('Iron Siege', 'آيرن سيج'), genre: L('Strategy', 'استراتيجية'), tagline: L('Build, defend, and break the enemy fortress.', 'ابنِ، دافع، واكسر قلعة الخصم.'), colors: ['#ffb02e', '#4a2c04'], overview: over, howToPlay: how, mechanics: mech, videos: vids },
-  { id: 'pixel-quest', name: L('Pixel Quest', 'بكسل كويست'), genre: L('Co-op Adventure', 'مغامرة تعاونية'), tagline: L('A relaxed co-op journey for friends and families.', 'رحلة تعاونية مريحة للأصدقاء والعائلة.'), colors: ['#3ddc84', '#0a3a22'], overview: over, howToPlay: how, mechanics: mech },
+  { id: 'poker', name: L('Poker', 'بوكر'), genre: genres.Card, tagline: L('Texas Hold’em poker with friends.', 'بوكر تكساس هولدم مع الأصدقاء.'), overview: L('Texas Hold’em poker with friends.', 'بوكر تكساس هولدم مع الأصدقاء.'), colors: palette.Card, image: icon('poker') },
+  { id: 'ocho', name: L('Ocho', 'أوتشو'), genre: genres.Card, tagline: L('Match colors and numbers to empty your hand.', 'طابق الألوان والأرقام لتُنهي أوراقك أولًا.'), overview: L('Match colors and numbers to empty your hand.', 'طابق الألوان والأرقام لتُنهي أوراقك أولًا.'), colors: palette.Card, image: icon('ocho') },
+  { id: 'pool', name: L('Pool', 'بلياردو'), genre: genres.Sports, tagline: L('Classic pool with friends.', 'بلياردو كلاسيكي مع الأصدقاء.'), overview: L('Classic pool with friends.', 'بلياردو كلاسيكي مع الأصدقاء.'), colors: palette.Sports, image: icon('pool') },
+  { id: 'bowling', name: L('Bowling', 'بولينغ'), genre: genres.Sports, tagline: L('Knock down the pins in ten frames.', 'أسقط القوارير خلال عشر جولات.'), overview: L('Knock down the pins in ten frames.', 'أسقط القوارير خلال عشر جولات.'), colors: palette.Sports, image: icon('bowling') },
+  { id: 'match-monsters', name: L('Match Monsters', 'مباراة الوحوش'), genre: genres.Arcade, tagline: L('Match gems and power up your monsters.', 'طابق الجواهر وقوِّ وحوشك.'), overview: L('Match gems and power up your monsters.', 'طابق الجواهر وقوِّ وحوشك.'), colors: palette.Arcade, image: icon('match-monsters') },
+  { id: 'brawlbots', name: L('Brawlbots', 'دبابات الروبوتات'), genre: genres.Arcade, tagline: L('Control your bot and survive the arena.', 'تحكم بروبوتك واصمد في الساحة.'), overview: L('Control your bot and survive the arena.', 'تحكم بروبوتك واصمد في الساحة.'), colors: palette.Arcade, image: icon('brawlbots') },
+  { id: 'ludo', name: L('Ludo', 'لودو'), genre: genres.Board, tagline: L('Race your tokens around the board.', 'سابق خصومك بقطعك حتى النهاية.'), overview: L('Race your tokens around the board.', 'سابق خصومك بقطعك حتى النهاية.'), colors: palette.Board, image: icon('ludo') },
+  { id: 'mini-golf', name: L('Mini Golf', 'غولف'), genre: genres.Sports, tagline: L('Compete on miniature golf courses.', 'تنافس في ملاعب الغولف المصغّرة.'), overview: L('Compete on miniature golf courses.', 'تنافس في ملاعب الغولف المصغّرة.'), colors: palette.Sports, image: icon('mini-golf') },
+  { id: 'table-soccer', name: L('Table Soccer', 'كرة القدم'), genre: genres.Sports, tagline: L('Fast tabletop-style soccer matches.', 'مباريات كرة قدم سريعة ومصغّرة.'), overview: L('Fast tabletop-style soccer matches.', 'مباريات كرة قدم سريعة ومصغّرة.'), colors: palette.Sports, image: icon('table-soccer') },
+  { id: 'bounce', name: L('Bounce', 'الكرة المرتدة'), genre: genres.Arcade, tagline: L('Time each bounce to stay in the game.', 'تحكم بتوقيت ارتداد الكرة لتستمر في اللعب.'), overview: L('Time each bounce to stay in the game.', 'تحكم بتوقيت ارتداد الكرة لتستمر في اللعب.'), colors: palette.Arcade, image: icon('bounce') },
+  { id: 'dice-party', name: L('Dice Party', 'حفلة النرد'), genre: genres.Board, tagline: L('Roll dice to fill your scorecard.', 'ارمِ النرد وأكمل بطاقة النقاط.'), overview: L('Roll dice to fill your scorecard.', 'ارمِ النرد وأكمل بطاقة النقاط.'), colors: palette.Board, image: icon('dice-party') },
+  { id: 'carrom', name: L('Carrom', 'كيرم'), genre: genres.Sports, tagline: L('Flick discs to claim the queen.', 'سدّد الأقراص لتفوز بالملكة.'), overview: L('Flick discs to claim the queen.', 'سدّد الأقراص لتفوز بالملكة.'), colors: palette.Sports, image: icon('carrom') },
+  { id: 'wordbox', name: L('Wordbox', 'صندوق الكلمات'), genre: genres.Word, tagline: L('Connect letters to form words.', 'صل الحروف لتكوين الكلمات.'), overview: L('Connect letters to form words.', 'صل الحروف لتكوين الكلمات.'), colors: palette.Word, image: icon('wordbox') },
+  { id: 'plox', name: L('Plox', 'بلوكس'), genre: genres.Arcade, tagline: L('Match blocks and outlast your opponent.', 'طابق الكتل وتفوّق على خصمك.'), overview: L('Match blocks and outlast your opponent.', 'طابق الكتل وتفوّق على خصمك.'), colors: palette.Arcade, image: icon('plox') },
+  { id: 'disc-o', name: L('Disc-O', 'ديسكو'), genre: genres.Sports, tagline: L('Slide your discs to score.', 'حرّك أقراصك بذكاء لتسجيل النقاط.'), overview: L('Slide your discs to score.', 'حرّك أقراصك بذكاء لتسجيل النقاط.'), colors: palette.Sports, image: icon('disc-o') },
+  { id: 'bingo', name: L('Bingo', 'بينغو'), genre: genres.Board, tagline: L('Mark numbers and complete a line.', 'طابق الأرقام وأكمل صفًا.'), overview: L('Mark numbers and complete a line.', 'طابق الأرقام وأكمل صفًا.'), colors: palette.Board, image: icon('bingo') },
+  { id: 'blitz-league', name: L('Blitz League', 'دوري بليتز'), genre: genres.Arcade, tagline: L('Deploy units to protect your base.', 'انشر الوحدات للدفاع عن قاعدتك.'), overview: L('Deploy units to protect your base.', 'انشر الوحدات للدفاع عن قاعدتك.'), colors: palette.Arcade, image: icon('blitz-league') },
+  { id: 'archery', name: L('Archery', 'رماية القوس'), genre: genres.Sports, tagline: L('Aim your arrows at the bullseye.', 'صوّب سهامك نحو الهدف.'), overview: L('Aim your arrows at the bullseye.', 'صوّب سهامك نحو الهدف.'), colors: palette.Sports, image: icon('archery') },
+  { id: 'skeeball', name: L('Skeeball', 'سكيبول'), genre: genres.Arcade, tagline: L('Roll for the highest score.', 'دحرج الكرة لتحقيق أعلى نقاط.'), overview: L('Roll for the highest score.', 'دحرج الكرة لتحقيق أعلى نقاط.'), colors: palette.Arcade, image: icon('skeeball') },
+  { id: '4-in-a-row', name: L('4 in a Row', 'أربعة في صف'), genre: genres.Board, tagline: L('Connect four pieces before your opponent.', 'اجمع أربع قطع متتالية قبل خصمك.'), overview: L('Connect four pieces before your opponent.', 'اجمع أربع قطع متتالية قبل خصمك.'), colors: palette.Board, image: icon('4-in-a-row') },
+  { id: 'dominoes', name: L('Dominoes', 'دومينوز'), genre: genres.Board, tagline: L('Play classic dominoes with friends.', 'العب الدومينو الكلاسيكية مع الأصدقاء.'), overview: L('Play classic dominoes with friends.', 'العب الدومينو الكلاسيكية مع الأصدقاء.'), colors: palette.Board, image: icon('dominoes') },
+  { id: 'backgammon', name: L('Backgammon', 'طاولة الزهر'), genre: genres.Board, tagline: L('Roll dice and bear off your checkers.', 'ارمِ النرد وأخرج قطعك قبل خصمك.'), overview: L('Roll dice and bear off your checkers.', 'ارمِ النرد وأخرج قطعك قبل خصمك.'), colors: palette.Board, image: icon('backgammon') },
+  { id: 'voice', name: L('Voice', 'صوت'), genre: genres.Social, tagline: L('Meet and chat with other players.', 'تحدث وتعرّف على لاعبين آخرين.'), overview: L('Meet and chat with other players.', 'تحدث وتعرّف على لاعبين آخرين.'), colors: palette.Social, image: icon('voice') },
+  { id: 'cribbage', name: L('Cribbage', 'كريبج'), genre: genres.Card, tagline: L('Play cards and race to score points.', 'العب الأوراق وتسابق لجمع النقاط.'), overview: L('Play cards and race to score points.', 'العب الأوراق وتسابق لجمع النقاط.'), colors: palette.Card, image: icon('cribbage') },
+  { id: 'bankroll', name: L('Bankroll', 'بنك رول'), genre: genres.Board, tagline: L('Trade properties to grow your fortune.', 'تاجر بالعقارات لبناء ثروتك.'), overview: L('Trade properties to grow your fortune.', 'تاجر بالعقارات لبناء ثروتك.'), colors: palette.Board, image: icon('bankroll') },
+  { id: 'gin-rummy', name: L('Gin Rummy', 'جين رومي'), genre: genres.Card, tagline: L('Draw and discard to make melds.', 'اسحب الأوراق وتخلّص منها لتكوين مجموعات.'), overview: L('Draw and discard to make melds.', 'اسحب الأوراق وتخلّص منها لتكوين مجموعات.'), colors: palette.Card, image: icon('gin-rummy') },
+  { id: 'darts', name: L('Darts', 'رمي السهام'), genre: genres.Sports, tagline: L('Aim darts for the bullseye.', 'صوّب السهام نحو مركز اللوحة.'), overview: L('Aim darts for the bullseye.', 'صوّب السهام نحو مركز اللوحة.'), colors: palette.Sports, image: icon('darts') },
+  { id: 'go-fish', name: L('Go Fish', 'اذهب للصيد'), genre: genres.Card, tagline: L('Collect matching sets of cards.', 'اجمع مجموعات الأوراق المتشابهة.'), overview: L('Collect matching sets of cards.', 'اجمع مجموعات الأوراق المتشابهة.'), colors: palette.Card, image: icon('go-fish') },
+  { id: 'chess', name: L('Chess', 'شطرنج'), genre: genres.Board, tagline: L('Plan your moves and checkmate.', 'خطط لحركاتك وحقق كش ملك.'), overview: L('Plan your moves and checkmate.', 'خطط لحركاتك وحقق كش ملك.'), colors: palette.Board, image: icon('chess') },
+  { id: 'sea-battle', name: L('Sea Battle', 'معركة بحرية'), genre: genres.Board, tagline: L('Find and sink your rival\'s ships.', 'اكتشف سفن خصمك وأغرقها.'), overview: L('Find and sink your rival\'s ships.', 'اكتشف سفن خصمك وأغرقها.'), colors: palette.Board, image: icon('sea-battle') },
+  { id: 'spades', name: L('Spades', 'سبيدز'), genre: genres.Card, tagline: L('Team up and win tricks.', 'تعاون مع فريقك للفوز باللمّات.'), overview: L('Team up and win tricks.', 'تعاون مع فريقك للفوز باللمّات.'), colors: palette.Card, image: icon('spades') },
+  { id: 'mancala', name: L('Mancala', 'منقلة'), genre: genres.Board, tagline: L('Move stones and collect captures.', 'حرّك الأحجار واجمع أكبر عدد منها.'), overview: L('Move stones and collect captures.', 'حرّك الأحجار واجمع أكبر عدد منها.'), colors: palette.Board, image: icon('mancala') },
+  { id: 'werewolf', name: L('Werewolf', 'المستذئب'), genre: genres.Social, tagline: L('Find the hidden wolves before they win.', 'اكشف الذئاب المختبئة قبل فوات الأوان.'), overview: L('Find the hidden wolves before they win.', 'اكشف الذئاب المختبئة قبل فوات الأوان.'), colors: palette.Social, image: icon('werewolf') },
+  { id: 'dots-and-boxes', name: L('Dots & Boxes', 'النقاط والمربعات'), genre: genres.Board, tagline: L('Draw lines and claim squares.', 'ارسم الخطوط واستحوذ على المربعات.'), overview: L('Draw lines and claim squares.', 'ارسم الخطوط واستحوذ على المربعات.'), colors: palette.Board, image: icon('dots-and-boxes') },
+  { id: 'basketball', name: L('Basketball', 'كرة السلة'), genre: genres.Sports, tagline: L('Score baskets before time runs out.', 'سجّل السلات قبل انتهاء الوقت.'), overview: L('Score baskets before time runs out.', 'سجّل السلات قبل انتهاء الوقت.'), colors: palette.Sports, image: icon('basketball') },
+  { id: 'cup-pong', name: L('Cup Pong', 'الكرة في الأكواب'), genre: genres.Sports, tagline: L('Toss balls into your rival\'s cups.', 'ارمِ الكرات داخل أكواب الخصم.'), overview: L('Toss balls into your rival\'s cups.', 'ارمِ الكرات داخل أكواب الخصم.'), colors: palette.Sports, image: icon('cup-pong') },
+  { id: 'bullshit', name: L('Bullsh!t', 'الكذب'), genre: genres.Card, tagline: L('Bluff or catch the other players bluffing.', 'اخدع الآخرين أو اكشف خداعهم.'), overview: L('Bluff or catch the other players bluffing.', 'اخدع الآخرين أو اكشف خداعهم.'), colors: palette.Card, image: icon('bullshit') },
+  { id: 'checkers', name: L('Checkers', 'داما'), genre: genres.Board, tagline: L('Capture your opponent\'s pieces.', 'التقط قطع خصمك واربح.'), overview: L('Capture your opponent\'s pieces.', 'التقط قطع خصمك واربح.'), colors: palette.Board, image: icon('checkers') },
+  { id: 'truco', name: L('Truco', 'تروكو'), genre: genres.Card, tagline: L('Bluff and bid for every point.', 'خادع وراهن على كل نقطة.'), overview: L('Bluff and bid for every point.', 'خادع وراهن على كل نقطة.'), colors: palette.Card, image: icon('truco') },
+  { id: 'draw-together', name: L('Draw Together', 'الرسم معًا'), genre: genres.Social, tagline: L('Draw pictures and guess the answers.', 'ارسم وخمّن ما رسمه الآخرون.'), overview: L('Draw pictures and guess the answers.', 'ارسم وخمّن ما رسمه الآخرون.'), colors: palette.Social, image: icon('draw-together') },
+  { id: 'minesweepers', name: L('Minesweepers', 'كاسحة الألغام'), genre: genres.Board, tagline: L('Clear tiles without hitting mines.', 'اكشف المربعات دون الوقوع في الألغام.'), overview: L('Clear tiles without hitting mines.', 'اكشف المربعات دون الوقوع في الألغام.'), colors: palette.Board, image: icon('minesweepers') },
+  { id: 'literati', name: L('Literati', 'ليتراتي'), genre: genres.Word, tagline: L('Build words and score points.', 'كوّن الكلمات واجمع النقاط.'), overview: L('Build words and score points.', 'كوّن الكلمات واجمع النقاط.'), colors: palette.Word, image: icon('literati') },
+  { id: 'old-zombie', name: L('Old Zombie', 'زومبي'), genre: genres.Card, tagline: L('Make pairs and avoid the zombie card.', 'كوّن أزواجًا وتجنب بطاقة الزومبي.'), overview: L('Make pairs and avoid the zombie card.', 'كوّن أزواجًا وتجنب بطاقة الزومبي.'), colors: palette.Card, image: icon('old-zombie') },
+  { id: 'big-two', name: L('Big Two', 'الاثنان الكبيران'), genre: genres.Card, tagline: L('Beat card combinations to clear your hand.', 'تغلب على مجموعات الأوراق لتُنهي يدك.'), overview: L('Beat card combinations to clear your hand.', 'تغلب على مجموعات الأوراق لتُنهي يدك.'), colors: palette.Card, image: icon('big-two') },
+  { id: 'reversi', name: L('Reversi', 'ريفرسي'), genre: genres.Board, tagline: L('Flip pieces and dominate the board.', 'اقلب قطع خصمك وسيطر على اللوحة.'), overview: L('Flip pieces and dominate the board.', 'اقلب قطع خصمك وسيطر على اللوحة.'), colors: palette.Board, image: icon('reversi') },
+  { id: 'hearts', name: L('Hearts', 'القلوب'), genre: genres.Card, tagline: L('Avoid taking penalty points.', 'تجنب جمع نقاط العقوبة.'), overview: L('Avoid taking penalty points.', 'تجنب جمع نقاط العقوبة.'), colors: palette.Card, image: icon('hearts') },
+  { id: 'conquest', name: L('Conquest', 'الغزو'), genre: genres.Board, tagline: L('Roll dice to conquer territories.', 'ارمِ النرد للسيطرة على المناطق.'), overview: L('Roll dice to conquer territories.', 'ارمِ النرد للسيطرة على المناطق.'), colors: palette.Board, image: icon('conquest') },
+  { id: 'legions', name: L('Legions', 'الفيالق'), genre: genres.Board, tagline: L('Lead your legion to victory.', 'قد فيلقك نحو النصر.'), overview: L('Lead your legion to victory.', 'قد فيلقك نحو النصر.'), colors: palette.Board, image: icon('legions') },
+  { id: 'the-island', name: L('The Island', 'الجزيرة'), genre: genres.Social, tagline: L('Make alliances and survive.', 'كوّن التحالفات وابقَ للنهاية.'), overview: L('Make alliances and survive.', 'كوّن التحالفات وابقَ للنهاية.'), colors: palette.Social, image: icon('the-island') },
+  { id: 'rock-card', name: L('Rock Card', 'روك كارد'), genre: genres.Social, tagline: L('Vote on funny or daring answers.', 'صوّت لأطرف الإجابات وأكثرها جرأة.'), overview: L('Vote on funny or daring answers.', 'صوّت لأطرف الإجابات وأكثرها جرأة.'), colors: palette.Social, image: icon('rock-card') },
+  { id: 'dungeon-tales', name: L('Dungeon Tales', 'حكايات الزنزانة'), genre: genres.Social, tagline: L('Adventure together and defeat monsters.', 'خُض مغامرة تعاونية واهزم الوحوش.'), overview: L('Adventure together and defeat monsters.', 'خُض مغامرة تعاونية واهزم الوحوش.'), colors: palette.Social, image: icon('dungeon-tales') },
+  { id: 'conspiracy', name: L('Conspiracy', 'مؤامرة'), genre: genres.Social, tagline: L('Discover the spy among your group.', 'اكشف الجاسوس الموجود بينكم.'), overview: L('Discover the spy among your group.', 'اكشف الجاسوس الموجود بينكم.'), colors: palette.Social, image: icon('conspiracy') },
+  { id: 'deep-thots', name: L('Deep Thots', 'أفكار عميقة'), genre: genres.Social, tagline: L('Give unexpected answers to big questions.', 'أجب بإجابات طريفة عن أسئلة عميقة.'), overview: L('Give unexpected answers to big questions.', 'أجب بإجابات طريفة عن أسئلة عميقة.'), colors: palette.Social, image: icon('deep-thots') },
+  { id: 'go', name: L('Go', 'غو'), genre: genres.Board, tagline: L('Control territory on the board.', 'سيطر على المساحات على لوحة غو.'), overview: L('Control territory on the board.', 'سيطر على المساحات على لوحة غو.'), colors: palette.Board, image: icon('go') },
 ];
-
 export const getGame = (id: string) => GAMES.find((g) => g.id === id);
