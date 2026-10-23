@@ -17,10 +17,10 @@ export default function HeroSection() {
   const [pick, setPick] = useState<Game | null>(null);
   const nextPick = useRef<Game | null>(null);
   const lastId = useRef('');
-  // The suggestion is temporary: after 2.5 minutes the card goes away and the hero is back to its start state.
+  // The suggestion is temporary: after 1 minute the card goes away and the hero is back to its start state.
   useEffect(() => {
     if (!pick) return;
-    const id = window.setTimeout(() => setPick(null), 150_000);
+    const id = window.setTimeout(() => setPick(null), 60_000);
     return () => window.clearTimeout(id);
   }, [pick]);
   const stageRef = useRef<HTMLDivElement>(null);
