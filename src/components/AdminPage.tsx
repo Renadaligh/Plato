@@ -157,7 +157,7 @@ function NewsTab({ k, onAuthFail }: { k: string; onAuthFail: () => void }) {
         {rows.map((r) => (
           <Box key={r.id}>
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="min-w-0"><b>{r.title.ar || r.title.en}</b><div className="text-[.82rem]" style={{ color: 'var(--muted)' }}>{r.date} · {x(TAG_AR[r.tag])}{r.published === false ? x(' · مسودة') : ''}</div></div>
+              <div className="min-w-0"><b>{r.title[lang] || r.title.ar || r.title.en}</b><div className="text-[.82rem]" style={{ color: 'var(--muted)' }}>{r.date} · {x(TAG_AR[r.tag])}{r.published === false ? x(' · مسودة') : ''}</div></div>
               <div className="flex gap-2"><button className="btn-glass !px-4 !py-2 !text-[.85rem]" onClick={() => { setMsg(''); setF({ ...r, image: r.image ?? '', href: r.href ?? '' }); window.scrollTo({ top: 0 }); }}>{x('تعديل')}</button><button className="btn-glass !px-4 !py-2 !text-[.85rem]" onClick={() => del(r.id)}>{x('حذف')}</button></div>
             </div>
           </Box>
@@ -208,7 +208,7 @@ function TournamentsTab({ k, onAuthFail }: { k: string; onAuthFail: () => void }
         <Box>
           <form onSubmit={save} className="grid gap-4 sm:grid-cols-2">
             {pair('name', x('اسم البطولة'), 'Name')}
-            <Field label={x('اللعبة')}><select className={inp} style={bd} value={f.gameId} onChange={(e) => setF({ ...f, gameId: e.target.value })}>{GAMES.map((g) => <option key={g.id} value={g.id}>{g.name.ar} — {g.name.en}</option>)}</select></Field>
+            <Field label={x('اللعبة')}><select className={inp} style={bd} value={f.gameId} onChange={(e) => setF({ ...f, gameId: e.target.value })}>{GAMES.map((g) => <option key={g.id} value={g.id}>{g.name[lang]}</option>)}</select></Field>
             <Field label={x('النوع')}><select className={inp} style={bd} value={f.mode ?? 'solo'} onChange={(e) => setF({ ...f, mode: e.target.value as 'solo' | 'team' })}><option value="solo">{x('فردي (Plato ID)')}</option><option value="team">{x('فرق (اسم الفريق + القائد + الأعضاء)')}</option></select></Field>
             {pair('format', x('النظام'), 'Format', x('فردي · أسرع لفة'))}
             {pair('prize', x('الجائزة'), 'Prize', x('5,000 ريال'))}
@@ -228,7 +228,7 @@ function TournamentsTab({ k, onAuthFail }: { k: string; onAuthFail: () => void }
         {rows.map((r) => (
           <Box key={r.id}>
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="min-w-0"><b>{r.name.ar || r.name.en}</b><div className="text-[.82rem]" style={{ color: 'var(--muted)' }}>{toInput(r.startsAt).replace('T', ' ')} · {r.slots.filled}/{r.slots.total}{r.published === false ? x(' · مسودة') : ''}</div></div>
+              <div className="min-w-0"><b>{r.name[lang] || r.name.ar || r.name.en}</b><div className="text-[.82rem]" style={{ color: 'var(--muted)' }}>{toInput(r.startsAt).replace('T', ' ')} · {r.slots.filled}/{r.slots.total}{r.published === false ? x(' · مسودة') : ''}</div></div>
               <div className="flex gap-2"><button className="btn-glass !px-4 !py-2 !text-[.85rem]" onClick={() => { setMsg(''); setF({ ...r, winner: r.winner ?? { ar: '', en: '' }, registerUrl: r.registerUrl ?? '', image: r.image ?? '' }); window.scrollTo({ top: 0 }); }}>{x('تعديل')}</button><button className="btn-glass !px-4 !py-2 !text-[.85rem]" onClick={() => del(r.id)}>{x('حذف')}</button></div>
             </div>
           </Box>
