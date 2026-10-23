@@ -10,6 +10,8 @@
   --dialog: #0c0c11; --shadow: rgba(0, 0, 0, .45); --skel-a: rgba(255, 255, 255, .04); --skel-b: rgba(255, 255, 255, .09);
   --art-a: #15151b; --art-b: #07070a;
 }
+select, select option { background-color: var(--dialog); color: var(--text); }
+
 :root[data-theme='light'] {
   --bg: #f3f6ff; --bg-rgb: 243, 246, 255; --text: #0c1334; --muted: #4f5b80;
   --glass: rgba(255, 255, 255, .8); --glass-b: rgba(30, 50, 130, .15);

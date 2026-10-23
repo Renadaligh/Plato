@@ -16,6 +16,17 @@ export function useTournaments() {
     return () => { live = false; };
   }, [attempt]);
 
+  // Silent refresh: new/edited tournaments (and slot counts) show up on their own.
+  useEffect(() => {
+    const refresh = () => {
+      if (document.visibilityState !== 'visible') return;
+      getTournaments().then((list) => setItems((prev) => (JSON.stringify(prev) === JSON.stringify(list) ? prev : list))).catch(() => undefined);
+    };
+    const id = window.setInterval(refresh, 30_000);
+    document.addEventListener('visibilitychange', refresh);
+    return () => { window.clearInterval(id); document.removeEventListener('visibilitychange', refresh); };
+  }, []);
+
   const retry = useCallback(() => setAttempt((n) => n + 1), []);
   return { items, status, retry };
 }
