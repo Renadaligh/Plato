@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 
-export type Route = { page: 'home' | 'news' | 'game'; id?: string; key: string };
+export type Route = { page: 'home' | 'news' | 'game' | 'admin'; id?: string; key: string };
 
 /** Hash routing keeps GitHub Pages happy (no server rewrites).
  *  #/news → all news · #/games/<id> → game page · anything else (#top, #games, …) → home. */
 function parse(): Route {
   const h = window.location.hash;
+  if (h.startsWith('#/admin')) return { page: 'admin', key: 'admin' };
   if (h.startsWith('#/news')) return { page: 'news', key: 'news' };
   const m = /^#\/games\/([^/?#]+)/.exec(h);
   if (m) { const id = decodeURIComponent(m[1]); return { page: 'game', id, key: `game:${id}` }; }

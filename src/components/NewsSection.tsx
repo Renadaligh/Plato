@@ -1,6 +1,4 @@
 import { useRef } from 'react';
-import { SHEETS } from '../config/sheets';
-import { SHOW_EXAMPLE_NEWS } from '../data/news';
 import { useCardsReveal } from '../hooks/useCardsReveal';
 import { useNews } from '../hooks/useNews';
 import { useI18n } from '../i18n/I18nProvider';
@@ -45,8 +43,6 @@ export default function NewsSection() {
           <div className="m-cont">{items.map((n) => <NewsCard key={n.id} item={n} />)}</div>
         </div>
       )}
-
-      {SHOW_EXAMPLE_NEWS && !SHEETS.news && status === 'ready' && <p className="mt-5 text-[.8rem]" style={{ color: 'var(--muted)', opacity: 0.75 }}>{t.newsExample}</p>}
     </section>
   );
 }

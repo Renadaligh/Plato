@@ -4,8 +4,9 @@ import { NAV } from '../config/site';
 import BrandLockup from './BrandLockup';
 import { CloseIcon, MenuIcon } from './icons';
 import LanguageSwitcher from './LanguageSwitcher';
+import ThemeToggle from './ThemeToggle';
 
-export default function Header({ page }: { page: 'home' | 'news' | 'game' }) {
+export default function Header({ page }: { page: 'home' | 'news' | 'game' | 'admin' }) {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -41,7 +42,7 @@ export default function Header({ page }: { page: 'home' | 'news' | 'game' }) {
   // Transparent over the hero (soft dark fade behind the text); becomes dark glass once scrolled or when the mobile menu is open.
   const solid = scrolled || open;
   return (
-    <header data-anim="header" data-solid={solid} className="hdr fixed inset-x-0 top-0 z-50">
+    <header data-solid={solid} data-over={page === 'game' ? 'dark' : undefined} className="hdr fixed inset-x-0 top-0 z-50">
       <div className="flex items-center justify-between gap-4 px-[clamp(1rem,4vw,3.5rem)] py-3 sm:py-4">
         <BrandLockup />
         <nav aria-label="Primary" className="hidden lg:block">
@@ -59,6 +60,7 @@ export default function Header({ page }: { page: 'home' | 'news' | 'game' }) {
           </ul>
         </nav>
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <LanguageSwitcher />
           <button ref={burger} type="button" className="pill !px-0 lg:hidden" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? t.closeMenu : t.menu}>
             {open ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}

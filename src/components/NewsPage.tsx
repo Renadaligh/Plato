@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
 import type { NewsTag } from '../data/news';
-import { SHOW_EXAMPLE_NEWS } from '../data/news';
 import { useCardsReveal } from '../hooks/useCardsReveal';
 import { useNews } from '../hooks/useNews';
 import { useI18n } from '../i18n/I18nProvider';
@@ -58,8 +57,6 @@ export default function NewsPage() {
           </div>
         )}
       </div>
-
-      {SHOW_EXAMPLE_NEWS && status === 'ready' && <p className="mt-5 text-[.8rem]" style={{ color: 'var(--muted)', opacity: 0.75 }}>{t.newsExample}</p>}
     </section>
   );
 }

@@ -1,0 +1,8 @@
+name = "plato"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-11-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "plato-db"
+database_id = "7c57b6ee-1f21-4b0e-ab56-6c9022a1ff11"

@@ -29,9 +29,6 @@ export interface Tournament {
 
 export type TournamentStatus = 'live' | 'upcoming' | 'completed';
 
-/** Set to false once real tournaments replace the placeholders below. */
-export const SHOW_EXAMPLE_TOURNAMENTS = true;
-
 const L = (en: string, ar: string): Localized => ({ en, ar });
 
 export const TOURNAMENTS_SEED: Tournament[] = [

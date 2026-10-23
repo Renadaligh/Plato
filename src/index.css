@@ -3,10 +3,23 @@
 @tailwind utilities;
 
 :root {
-  --bg: #050507; --text: #fff; --muted: #b9b9c6;
+  --bg: #050507; --bg-rgb: 5, 5, 7; --text: #fff; --muted: #b9b9c6;
   --glass: rgba(8, 8, 10, 0.58); --glass-b: rgba(255, 255, 255, 0.14);
   --nav-solid: rgba(6, 6, 8, 0.78); --link-on: #5aa2ff; color-scheme: dark;
+  --chip-bg: rgba(0, 0, 0, .3); --chip-b: rgba(255, 255, 255, .2); --track: rgba(255, 255, 255, .15);
+  --dialog: #0c0c11; --shadow: rgba(0, 0, 0, .45); --skel-a: rgba(255, 255, 255, .04); --skel-b: rgba(255, 255, 255, .09);
+  --art-a: #15151b; --art-b: #07070a;
 }
+:root[data-theme='light'] {
+  --bg: #f3f6ff; --bg-rgb: 243, 246, 255; --text: #0c1334; --muted: #4f5b80;
+  --glass: rgba(255, 255, 255, .8); --glass-b: rgba(30, 50, 130, .15);
+  --nav-solid: rgba(246, 249, 255, .88); --link-on: #2455e8; color-scheme: light;
+  --chip-bg: rgba(30, 50, 130, .06); --chip-b: rgba(30, 50, 130, .16); --track: rgba(30, 50, 130, .12);
+  --dialog: #fff; --shadow: rgba(30, 50, 130, .2); --skel-a: rgba(30, 50, 130, .05); --skel-b: rgba(30, 50, 130, .1);
+  --art-a: #e6edff; --art-b: #c9d6ff;
+}
+/* Content that sits on a coloured / photographic banner keeps light text in both themes. */
+.on-art { --text: #fff; --muted: rgba(255, 255, 255, .8); --glass-b: rgba(255, 255, 255, .22); --chip-bg: rgba(0, 0, 0, .3); --chip-b: rgba(255, 255, 255, .2); --track: rgba(255, 255, 255, .15); color: #fff; }
 html { scroll-padding-top: 6rem; }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: Poppins, Tajawal, system-ui, sans-serif; overflow-x: hidden; }
@@ -15,12 +28,13 @@ a:focus-visible, button:focus-visible { outline: 3px solid #7fe3ff; outline-offs
 
 /* ---- Latest News ---- */
 .news-card { position: relative; display: flex; flex-direction: column; overflow: hidden; border-radius: 1.25rem; border: 1px solid var(--glass-b); background: var(--glass); backdrop-filter: blur(10px); transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
-.news-card-hover:hover { transform: translateY(-4px); border-color: rgba(90, 162, 255, .55); box-shadow: 0 18px 40px rgba(0, 0, 0, .45); }
+.news-card-hover:hover { transform: translateY(-4px); border-color: rgba(90, 162, 255, .55); box-shadow: 0 18px 40px var(--shadow); }
 .news-card:has(.news-link:focus-visible) { outline: 2px solid var(--link-on); outline-offset: 3px; }
 .news-link { outline: none; }
-.news-art { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: radial-gradient(120% 120% at 20% 10%, rgba(59, 123, 255, .35), transparent 60%), linear-gradient(160deg, #15151b, #07070a); }
+.news-art { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: radial-gradient(120% 120% at 20% 10%, rgba(59, 123, 255, .35), transparent 60%), linear-gradient(160deg, var(--art-a), var(--art-b)); }
+:root[data-theme='light'] .news-art::after { filter: invert(1); opacity: .14; }
 .news-art::after { content: ''; position: absolute; inset: 0; background: var(--wm) center / 38% no-repeat; opacity: .1; }
-.news-skel { min-height: 20rem; border-radius: 1.25rem; border: 1px solid var(--glass-b); background: linear-gradient(100deg, rgba(255,255,255,.04) 30%, rgba(255,255,255,.09) 50%, rgba(255,255,255,.04) 70%) 0 0 / 200% 100%; animation: news-shimmer 1.4s linear infinite; }
+.news-skel { min-height: 20rem; border-radius: 1.25rem; border: 1px solid var(--glass-b); background: linear-gradient(100deg, var(--skel-a) 30%, var(--skel-b) 50%, var(--skel-a) 70%) 0 0 / 200% 100%; animation: news-shimmer 1.4s linear infinite; }
 @keyframes news-shimmer { to { background-position: -200% 0; } }
 @media (prefers-reduced-motion: reduce) { .news-skel { animation: none; } .news-card, .news-card-hover:hover { transition: none; transform: none; } }
 
@@ -47,6 +61,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid #7fe3ff; outline-offs
 .hdr::before { content: ""; position: absolute; inset: 0 0 -70% 0; z-index: -1; pointer-events: none; transition: opacity .3s;
   background: linear-gradient(180deg, rgba(0, 0, 0, .72) 0%, rgba(0, 0, 0, .38) 50%, transparent 100%); }
 .hdr[data-solid='false'] { --text: #fff; --muted: rgba(255, 255, 255, .82); --glass: rgba(255, 255, 255, .1); --glass-b: rgba(255, 255, 255, .3); --link-on: #5aa2ff; }
+:root[data-theme='light'] .hdr[data-solid='false']:not([data-over='dark']) { --text: #0c1334; --muted: rgba(12, 19, 52, .72); --glass: rgba(255, 255, 255, .6); --glass-b: rgba(30, 50, 130, .22); --link-on: #2455e8; }
+:root[data-theme='light'] .hdr[data-solid='false']:not([data-over='dark'])::before { background: linear-gradient(180deg, rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .35) 50%, transparent 100%); }
 .hdr[data-solid='true'] { background: var(--nav-solid); border-bottom-color: var(--glass-b); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
 .hdr[data-solid='true']::before { opacity: 0; }
 
@@ -66,10 +82,10 @@ a:focus-visible, button:focus-visible { outline: 3px solid #7fe3ff; outline-offs
 /* Tournament cover image: sits behind the text and fades into the dark on the text side */
 .tour-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; }
 [dir='rtl'] .tour-img { object-position: 30% 50%; }
-.tour-fade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(5, 5, 7, 1) 0%, rgba(5, 5, 7, .93) 52%, rgba(5, 5, 7, .12) 100%); }
+.tour-fade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgba(var(--bg-rgb), 1) 0%, rgba(var(--bg-rgb), .93) 52%, rgba(var(--bg-rgb), .12) 100%); }
 @media (min-width: 1024px) {
-  .tour-fade-h { background: linear-gradient(to right, rgba(5, 5, 7, .97) 0%, rgba(5, 5, 7, .88) 42%, rgba(5, 5, 7, .1) 100%); }
-  [dir='rtl'] .tour-fade-h { background: linear-gradient(to left, rgba(5, 5, 7, .97) 0%, rgba(5, 5, 7, .88) 42%, rgba(5, 5, 7, .1) 100%); }
+  .tour-fade-h { background: linear-gradient(to right, rgba(var(--bg-rgb), .97) 0%, rgba(var(--bg-rgb), .88) 42%, rgba(var(--bg-rgb), .1) 100%); }
+  [dir='rtl'] .tour-fade-h { background: linear-gradient(to left, rgba(var(--bg-rgb), .97) 0%, rgba(var(--bg-rgb), .88) 42%, rgba(var(--bg-rgb), .1) 100%); }
 }
 
 /* Small, staggered drifting loops on mobile; keep every element near its layout position. */

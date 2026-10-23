@@ -168,3 +168,27 @@
   .plato-ref-pick{position:relative;inset:auto;width:min(100%,26rem)}
 }
 @media(prefers-reduced-motion:reduce){.plato-ref-pick{animation:none!important}}
+
+/* ── Light theme ── */
+:root[data-theme='light'] .plato-ref-hero{--pr-ink:#0f1747;--pr-mute:#4a5788;--pr-glass:rgba(255,255,255,.66);--pr-line:rgba(40,70,180,.2);--pr-b1:#8db4ff;--pr-b2:#c4b3ff;--pr-b3:#ffd3a6;--pr-cta:#2f5bff;--pr-g1:#2a63ff;--pr-g2:#6a49f0;--pr-w1:#f08400;--pr-w2:#e3a100;background:linear-gradient(180deg,#e6efff 0%,#f4f1ff 58%,#fdf5ec 100%);color:var(--pr-ink)}
+:root[data-theme='light'] .plato-ref-glows span{opacity:.6}
+:root[data-theme='light'] .plato-ref-glows span:nth-child(3){opacity:.45}
+:root[data-theme='light'] .plato-ref-face{border-color:rgba(90,100,210,.45);box-shadow:inset 0 0 28px rgba(255,255,255,.6),inset 0 -8px 24px rgba(110,90,255,.3);background:linear-gradient(145deg,#fbfaff,#c9c2fb)}
+:root[data-theme='light'] .plato-ref-shadow{background:rgba(50,60,150,.34)}
+:root[data-theme='light'] .plato-ref-king{filter:drop-shadow(0 14px 12px rgba(70,60,170,.3))}
+:root[data-theme='light'] .plato-ref-button-secondary{background:rgba(255,255,255,.7)}
+:root[data-theme='light'] .plato-ref-button-primary{box-shadow:0 12px 28px -10px rgba(47,91,255,.7)}
+:root[data-theme='light'] .plato-ref-click-hint{border-color:rgba(60,90,200,.35);background:rgba(255,255,255,.78);color:#1b2a6b;box-shadow:0 0 18px rgba(68,128,255,.2)}
+:root[data-theme='light'] .plato-ref-pick{background:rgba(255,255,255,.88);box-shadow:0 22px 50px -20px rgba(40,60,160,.45)}
+:root[data-theme='light'] .plato-ref-pick-art{box-shadow:inset 0 0 0 1px rgba(30,50,130,.18)}
+:root[data-theme='light'] .plato-ref-scroll{border-color:rgba(15,23,71,.5)}
+:root[data-theme='light'] .plato-ref-scroll span{background:rgba(15,23,71,.55)}
+@media(max-width:600px){
+  :root[data-theme='light'] .plato-ref-hero{background:radial-gradient(ellipse 95% 55% at 45% 24%,#cfe0ff 0%,#e4ecff 45%,#f3f1ff 80%,#fbf5ee 100%)}
+  :root[data-theme='light'] .plato-ref-click-hint{background:transparent;color:#1b2a6b;text-shadow:0 2px 9px rgba(255,255,255,.9);box-shadow:none}
+  :root[data-theme='light'] .plato-ref-click-hint-icon{color:#2f5bff}
+}
+
+/* Light theme: rolling (outline) state keeps the see-through wireframe look */
+:root[data-theme='light'] .plato-ref-cube.is-outline .plato-ref-face{background:rgba(255,255,255,.06);box-shadow:none;border-color:#5a4de0}
+:root[data-theme='light'] .plato-ref-cube.is-outline .plato-ref-face i{background:transparent;border:3px solid #5a4de0}

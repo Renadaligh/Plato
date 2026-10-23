@@ -21,9 +21,6 @@ export interface NewsItem {
   href?: string;
 }
 
-/** Set to false once real news replaces the placeholders below. */
-export const SHOW_EXAMPLE_NEWS = true;
-
 export const NEWS_SEED: NewsItem[] = [
   { id: 'n1', date: '2026-10-12', tag: 'event',
     title: { en: 'Plato AR community night: details coming soon', ar: 'ليلة مجتمع Plato | بالعربية: التفاصيل قريباً' },

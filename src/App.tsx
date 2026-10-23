@@ -11,6 +11,7 @@ import ChampionsSection from './components/ChampionsSection';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
 import CommunitySection from './components/CommunitySection';
+import AdminPage from './components/AdminPage';
 import SupportSection from './components/SupportSection';
 
 function Pages() {
@@ -19,7 +20,9 @@ function Pages() {
     <>
       <Header page={route.page} />
       <main>
-        {route.page === 'news' ? (
+        {route.page === 'admin' ? (
+          <AdminPage />
+        ) : route.page === 'news' ? (
           <NewsPage />
         ) : route.page === 'game' ? (
           <GamePage id={route.id ?? ''} />

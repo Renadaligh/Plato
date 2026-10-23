@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { createPortal } from 'react-dom';
-import { SHEETS } from '../config/sheets';
 import type { Tournament } from '../data/tournaments';
 import { useI18n } from '../i18n/I18nProvider';
 import { CloseIcon } from './icons';
@@ -11,7 +10,7 @@ const MAX = { id: 80, name: 80, members: 600 };
 const field = 'w-full rounded-xl border bg-transparent px-4 py-3 text-[.95rem] outline-none transition-colors focus:border-[var(--link-on)]';
 const fieldStyle = { borderColor: 'var(--glass-b)', color: 'var(--text)' };
 
-/** In-site registration form. Solo → one Plato ID; team → team name + captain + members. Posts to the Apps Script endpoint. */
+/** In-site registration form. Solo → one Plato ID; team → team name + captain + members. Posts to /api/registrations. */
 export default function RegisterDialog({ x, onClose }: { x: Tournament; onClose: () => void }) {
   const { t, lang } = useI18n();
   const team = x.mode === 'team';
@@ -38,8 +37,8 @@ export default function RegisterDialog({ x, onClose }: { x: Tournament; onClose:
     if (!id || (team && (!teamName.trim() || !members.trim()))) { setState('required'); return; }
     setState('sending');
     try {
-      const res = await fetch(SHEETS.register, {
-        method: 'POST', // no custom headers: keeps it a "simple" request that Apps Script accepts
+      const res = await fetch('/api/registrations', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ tournamentId: x.id, tournamentName: x.name.en, mode: team ? 'team' : 'solo', platoId: id, teamName: teamName.trim(), members: members.trim(), lang, hp }),
       });
       const data = (await res.json()) as { ok?: boolean; error?: string };
@@ -53,7 +52,7 @@ export default function RegisterDialog({ x, onClose }: { x: Tournament; onClose:
 
   return createPortal(
     <div className="fixed inset-0 z-[90] flex items-end justify-center bg-black/70 p-0 sm:items-center sm:p-6" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div role="dialog" aria-modal="true" aria-labelledby="reg-title" className="max-h-[92svh] w-full max-w-[30rem] overflow-y-auto rounded-t-3xl border p-6 sm:rounded-3xl" style={{ background: '#0c0c11', borderColor: 'var(--glass-b)' }}>
+      <div role="dialog" aria-modal="true" aria-labelledby="reg-title" className="max-h-[92svh] w-full max-w-[30rem] overflow-y-auto rounded-t-3xl border p-6 sm:rounded-3xl" style={{ background: 'var(--dialog)', borderColor: 'var(--glass-b)' }}>
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
             <h3 id="reg-title" className="text-[1.3rem] font-extrabold">{t.regTitle}</h3>

@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react';
 import RegisterDialog from './RegisterDialog';
 import { getGame } from '../data/games';
-import { SHEETS } from '../config/sheets';
 import { useTournaments } from '../hooks/useTournaments';
-import { SHOW_EXAMPLE_TOURNAMENTS, sortTournaments, statusOf, type Tournament, type TournamentStatus } from '../data/tournaments';
+import { sortTournaments, statusOf, type Tournament, type TournamentStatus } from '../data/tournaments';
 import { useNow } from '../hooks/useNow';
 import { useI18n } from '../i18n/I18nProvider';
 import type { Dict } from '../i18n/translations';
@@ -18,7 +17,7 @@ const ST_COLOR: Record<TournamentStatus, string> = { live: '#ff3b4e', upcoming: 
 function StatusPill({ s }: { s: TournamentStatus }) {
   const { t } = useI18n();
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[.78rem] font-bold" style={{ borderColor: ST_COLOR[s], color: s === 'completed' ? 'var(--muted)' : '#fff', background: s === 'live' ? 'rgba(255,59,78,.18)' : 'rgba(0,0,0,.25)' }}>
+    <span className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[.78rem] font-bold" style={{ borderColor: ST_COLOR[s], color: s === 'completed' ? 'var(--muted)' : 'var(--text)', background: s === 'live' ? 'rgba(255,59,78,.18)' : 'var(--chip-bg)' }}>
       <i aria-hidden="true" className={`h-2 w-2 rounded-full ${s === 'live' ? 'animate-pulse' : ''}`} style={{ background: ST_COLOR[s] }} />
       {t[ST_KEY[s]]}
     </span>
@@ -38,7 +37,7 @@ function Countdown({ to, label }: { to: string; label: string }) {
       <div className="mb-2 text-[.82rem] font-semibold opacity-85">{label}</div>
       <div className="flex w-full gap-2 sm:gap-2.5" role="timer" aria-label={label}>
         {parts.map(([n, k]) => (
-          <div key={k} className="min-w-0 flex-1 rounded-xl border px-1.5 py-2 text-center sm:min-w-[3.6rem] sm:flex-none sm:px-2.5" style={{ background: 'rgba(0,0,0,.3)', borderColor: 'rgba(255,255,255,.2)' }}>
+          <div key={k} className="min-w-0 flex-1 rounded-xl border px-1.5 py-2 text-center sm:min-w-[3.6rem] sm:flex-none sm:px-2.5" style={{ background: 'var(--chip-bg)', borderColor: 'var(--chip-b)' }}>
             <div className="text-[1.3rem] font-extrabold leading-none tabular-nums sm:text-[1.5rem]">{String(n).padStart(2, '0')}</div>
             <div className="mt-1 truncate text-[.7rem] opacity-80">{t[k]}</div>
           </div>
@@ -63,7 +62,7 @@ function Facts({ x }: { x: Tournament }) {
       <div><dt className="opacity-70">{t.tFormat}</dt><dd className="font-bold">{x.format[lang]}</dd></div>
       <div className="col-span-2">
         <dt className="flex justify-between opacity-70"><span>{t.tTeams}</span><span>{full ? t.tFull : `${x.slots.filled}/${x.slots.total}`}</span></dt>
-        <dd><div className="mt-1.5 h-1.5 overflow-hidden rounded-full" style={{ background: 'rgba(255,255,255,.15)' }}><div className="h-full rounded-full" style={{ width: `${Math.min(100, (x.slots.filled / x.slots.total) * 100)}%`, background: 'linear-gradient(90deg,#ff3347,#d90f26)' }} /></div></dd>
+        <dd><div className="mt-1.5 h-1.5 overflow-hidden rounded-full" style={{ background: 'var(--track)' }}><div className="h-full rounded-full" style={{ width: `${Math.min(100, (x.slots.filled / x.slots.total) * 100)}%`, background: 'linear-gradient(90deg,#3b7bff,#2455e8)' }} /></div></dd>
       </div>
     </dl>
   );
@@ -74,7 +73,6 @@ function Register({ x, s }: { x: Tournament; s: TournamentStatus }) {
   const [open, setOpen] = useState(false);
   if (s !== 'upcoming' || x.slots.filled >= x.slots.total) return null;
   if (x.registerUrl) return <a href={x.registerUrl} target="_blank" rel="noopener noreferrer" className="btn-primary mt-5 self-start">{t.tRegister} <ArrowIcon className="h-4 w-4 rtl:rotate-180" /></a>;
-  if (!SHEETS.register) return null;
   return (
     <>
       <button type="button" className="btn-primary mt-5 self-start" onClick={() => setOpen(true)}>{t.tRegister} <ArrowIcon className="h-4 w-4 rtl:rotate-180" /></button>
@@ -89,7 +87,7 @@ function Featured({ x, s }: { x: Tournament; s: TournamentStatus }) {
   const g = getGame(x.gameId);
   const c = g?.colors ?? ['#3b7bff', '#0f2a6b'];
   return (
-    <article className="news-card relative text-white md:mb-6" style={{ background: `linear-gradient(135deg, ${c[0]}, ${c[1]})`, border: 'none' }}>
+    <article className="news-card on-art relative text-white md:mb-6" style={{ background: `linear-gradient(135deg, ${c[0]}, ${c[1]})`, border: 'none' }}>
       {x.image ? (
         <>
           <img src={x.image} alt="" loading="lazy" decoding="async" className="tour-img" />
@@ -183,8 +181,6 @@ export default function TournamentsSection() {
           {rest.length > 0 && <div className="m-cont">{rest.map((r) => <Card key={r.x.id} x={r.x} s={r.s} />)}</div>}
         </div>
       )}
-
-      {SHOW_EXAMPLE_TOURNAMENTS && !SHEETS.tournaments && <p className="mt-5 text-[.8rem]" style={{ color: 'var(--muted)', opacity: 0.75 }}>{t.tournExample}</p>}
     </section>
   );
 }

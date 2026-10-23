@@ -1,0 +1,27 @@
+import { body, denied, isAdmin, json, str, type Ctx } from '../../_lib';
+
+/** Public: register for a tournament. Admin: list all registrations. */
+export const onRequestPost = async ({ request, env }: Ctx) => {
+  const b = await body(request);
+  if (str(b.hp, 50)) return json({ ok: true }); // honeypot: pretend success to bots
+  const tid = str(b.tournamentId, 80), plato = str(b.platoId, 80), team = b.mode === 'team';
+  const teamName = str(b.teamName, 80), members = str(b.members, 600);
+  if (!tid || !plato || (team && (!teamName || !members))) return json({ ok: false, error: 'required' }, 400);
+  const t = await env.DB.prepare('SELECT name_en, filled, total FROM tournaments WHERE id=? AND published=1').bind(tid).first<{ name_en: string; filled: number; total: number }>();
+  if (!t) return json({ ok: false, error: 'unknown' }, 404);
+  if (t.filled >= t.total) return json({ ok: false, error: 'full' }, 409);
+  try {
+    await env.DB.prepare('INSERT INTO registrations (tournament_id,tournament_name,mode,plato_id,team_name,members,lang) VALUES (?,?,?,?,?,?,?)')
+      .bind(tid, t.name_en, team ? 'team' : 'solo', plato, teamName, members, b.lang === 'en' ? 'en' : 'ar').run();
+  } catch {
+    return json({ ok: false, error: 'duplicate' }, 409);
+  }
+  await env.DB.prepare('UPDATE tournaments SET filled = MIN(total, filled + 1) WHERE id=?').bind(tid).run();
+  return json({ ok: true });
+};
+
+export const onRequestGet = async ({ request, env }: Ctx) => {
+  if (!isAdmin(request, env)) return denied();
+  const { results } = await env.DB.prepare('SELECT * FROM registrations ORDER BY id DESC').all();
+  return json(results);
+};

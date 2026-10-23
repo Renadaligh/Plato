@@ -1,21 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
-import { SHEETS } from '../config/sheets';
-import { TOURNAMENTS_SEED, type Tournament } from '../data/tournaments';
+import type { Tournament } from '../data/tournaments';
 import { getTournaments } from '../services/tournamentsService';
 
 export function useTournaments() {
-  const [items, setItems] = useState<Tournament[]>(SHEETS.tournaments ? [] : TOURNAMENTS_SEED);
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>(SHEETS.tournaments ? 'loading' : 'ready');
+  const [items, setItems] = useState<Tournament[]>([]);
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    if (!SHEETS.tournaments) return;
-    const ctrl = new AbortController();
+    let live = true;
     setStatus('loading');
-    getTournaments(ctrl.signal)
-      .then((list) => { setItems(list); setStatus('ready'); })
-      .catch((e: unknown) => { if (!(e instanceof DOMException && e.name === 'AbortError')) setStatus('error'); });
-    return () => ctrl.abort();
+    getTournaments()
+      .then((list) => { if (live) { setItems(list); setStatus('ready'); } })
+      .catch(() => { if (live) setStatus('error'); });
+    return () => { live = false; };
   }, [attempt]);
 
   const retry = useCallback(() => setAttempt((n) => n + 1), []);

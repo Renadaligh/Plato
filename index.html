@@ -11,6 +11,10 @@
       const lang = localStorage.getItem('plato-lang') || 'en';
       document.documentElement.lang = lang;
       document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      const saved = localStorage.getItem('plato-theme');
+      const theme = saved === 'light' || saved === 'dark' ? saved : (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+      if (theme === 'light') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f3f6ff');
     } catch (_) {}
   </script>
   <style>
@@ -28,6 +32,11 @@
       visibility: visible;
       transition: opacity 850ms cubic-bezier(.22, 1, .36, 1), visibility 850ms;
     }
+    html[data-theme='light'], html[data-theme='light'] body { background: #f3f6ff; }
+    html[data-theme='light'] #app-loader { background: #eef3ff; }
+    html[data-theme='light'] .app-loader-label { color: #0c1334; }
+    html[data-theme='light'] .app-loader-track { background: rgba(30, 50, 130, .14); }
+    html[data-theme='light'] .app-loader-glow { opacity: .3; }
     #app-loader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
     .app-loader-glows { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
     .app-loader-glow { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .52; animation: loader-drift 22s ease-in-out infinite alternate; }
@@ -44,6 +53,7 @@
     @keyframes loader-sweep { 0% { transform: translateX(-120%); } 100% { transform: translateX(340%); } }
     @media (max-width: 600px) {
       #app-loader { background: radial-gradient(ellipse 95% 55% at 45% 24%, #132d83 0%, #111b52 42%, #0a102c 78%, #0b0d21 100%); }
+      html[data-theme='light'] #app-loader { background: linear-gradient(180deg, #e3edff, #f3f6ff); }
       .app-loader-glow:nth-child(1) { width:115vw; height:115vw; top:-12vw; inset-inline-start:-18vw; background:#277dff; opacity:.56; filter:blur(85px); }
       .app-loader-glow:nth-child(2) { width:95vw; height:95vw; top:28vh; inset-inline-end:-25vw; background:#1555d9; opacity:.25; filter:blur(95px); }
       .app-loader-glow:nth-child(3) { background:#398aff; bottom:-8vw; opacity:.12; }
