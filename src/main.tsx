@@ -13,3 +13,18 @@ import './index.css';
 import App from './App';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode><App /></React.StrictMode>);
+
+// Remove the loading overlay after React has mounted and the browser has had a chance to paint.
+const loader = document.getElementById('app-loader');
+if (loader) {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      loader.classList.add('is-hidden');
+      const removeLoader = () => loader.remove();
+      loader.addEventListener('transitionend', (event) => {
+        if (event.target === loader && event.propertyName === 'opacity') removeLoader();
+      }, { once: true });
+      window.setTimeout(removeLoader, 1100);
+    });
+  });
+}
