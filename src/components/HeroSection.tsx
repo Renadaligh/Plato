@@ -18,6 +18,15 @@ export default function HeroSection() {
   const motionRef = useRef({ pitch: -24, yaw: 0, mode: 'idle' as 'idle' | 'roll' | 'hold', start: 0, fromX: -24, fromY: 0, toX: -24, toY: 0, holdUntil: 0 });
   const reducedRef = useRef(false);
   const rtl = lang === 'ar';
+  const previousLang = useRef(lang);
+
+  // Show the interaction hint again whenever the visitor switches languages.
+  useEffect(() => {
+    if (previousLang.current !== lang) {
+      previousLang.current = lang;
+      setHasRolled(false);
+    }
+  }, [lang]);
 
   // One animation clock owns every frame: uninterrupted idle spin, roll, brief stop, then idle again.
   useEffect(() => {
