@@ -1,4 +1,5 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { BRAND } from '../config/site';
 import { translations, type Dict, type Lang } from './translations';
 
 interface Ctx { lang: Lang; dir: 'ltr' | 'rtl'; t: Dict; setLang: (l: Lang) => void }
@@ -6,6 +7,7 @@ const I18nContext = createContext<Ctx | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(() => (document.documentElement.lang === 'ar' ? 'ar' : 'en'));
+  useEffect(() => { document.title = BRAND[lang]; }, [lang]);
   const setLang = useCallback((l: Lang) => {
     document.documentElement.lang = l;
     document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';

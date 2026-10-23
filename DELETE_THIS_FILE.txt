@@ -1,4 +1,0 @@
-Delete this file from your project manually:
-public/brand/ninja.png
-
-All known references to ninja.png in components have been removed.

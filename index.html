@@ -4,15 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0d0e22" />
-  <title>Plato بالعربية</title>
+  <title>Plato AR</title>
   <link rel="icon" type="image/png" href="%BASE_URL%brand/cube.png" />
   <script>
     try {
       const lang = localStorage.getItem('plato-lang') || 'en';
       document.documentElement.lang = lang;
       document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-      const theme = localStorage.getItem('plato-theme');
-      document.documentElement.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
     } catch (_) {}
   </script>
   <style>
@@ -58,7 +56,7 @@
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Ubuntu:wght@500&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
 </head>
 <body>
   <div id="app-loader" role="status" aria-label="Loading Plato" aria-live="polite">

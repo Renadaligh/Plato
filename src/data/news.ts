@@ -26,7 +26,7 @@ export const SHOW_EXAMPLE_NEWS = true;
 
 export const NEWS_SEED: NewsItem[] = [
   { id: 'n1', date: '2026-10-12', tag: 'event',
-    title: { en: 'Elite community night: details coming soon', ar: 'ليلة مجتمع إيليت: التفاصيل قريباً' },
+    title: { en: 'Plato AR community night: details coming soon', ar: 'ليلة مجتمع Plato | بالعربية: التفاصيل قريباً' },
     summary: { en: 'Placeholder news item. Replace this with the real announcement text.', ar: 'خبر تجريبي. استبدل هذا بنص الإعلان الحقيقي.' } },
   { id: 'n2', date: '2026-10-08', tag: 'tournament',
     title: { en: 'Tournament announcement placeholder', ar: 'إعلان بطولة تجريبي' },

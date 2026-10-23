@@ -10,3 +10,6 @@ export const NAV: { href: string; key: keyof Dict }[] = [
   { href: '#community', key: 'navCommunity' },
   { href: '#support', key: 'navSupport' },
 ];
+
+/** Official site name per language. */
+export const BRAND = { en: 'Plato AR', ar: 'Plato | بالعربية' } as const;

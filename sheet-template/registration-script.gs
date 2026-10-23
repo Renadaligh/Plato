@@ -1,4 +1,4 @@
-// Plato Elite — يستقبل التسجيل من الموقع ويحفظه في هذا الجدول (تبويب لكل بطولة).
+// Plato AR — يستقبل التسجيل من الموقع ويحفظه في هذا الجدول (تبويب لكل بطولة).
 // الإعداد: أنشئ Google Sheet جديد للتسجيلات ← Extensions ← Apps Script ← الصق هذا ← Deploy ← New deployment ← Web app
 // (Execute as: Me ، Who has access: Anyone) ← انسخ رابط الـ Web app وحطه في src/config/sheets.ts (register).
 

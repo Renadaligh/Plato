@@ -9,8 +9,6 @@
 @keyframes platoRefDrift{to{transform:translate(6vw,4vh) scale(1.12)}}
 .plato-ref-layout{width:100%;max-width:1400px;margin:auto;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:20px;padding:115px clamp(20px,4vw,56px) 85px}
 .plato-ref-content{position:relative;z-index:2;min-width:0}
-.plato-ref-kicker{font-size:13px;letter-spacing:.28em;font-weight:700;color:var(--pr-mute);margin-bottom:18px}
-[dir=rtl] .plato-ref-kicker{letter-spacing:.04em;font-size:15px}
 .plato-ref-heading{font-size:clamp(54px,7.5vw,110px);line-height:.98;font-weight:800;letter-spacing:-.03em}
 [dir=rtl] .plato-ref-heading{line-height:1.2;letter-spacing:0;font-size:clamp(52px,7vw,101px)}
 .plato-ref-heading span{display:block;animation:platoRefRise .9s cubic-bezier(.2,.8,.2,1) both}
@@ -50,7 +48,7 @@
 .plato-ref-scroll span{width:4px;height:9px;border-radius:8px;background:var(--pr-mute);animation:platoRefScroll 1.8s ease-in-out infinite}
 @keyframes platoRefScroll{to{transform:translateY(14px);opacity:0}}
 @media(max-width:980px){.plato-ref-layout{grid-template-columns:1fr;gap:0;padding-top:100px}.plato-ref-stage{order:-1;height:300px}.plato-ref-content{text-align:center}.plato-ref-desc{margin-inline:auto}.plato-ref-actions,.plato-ref-stats{justify-content:center}.plato-ref-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:min(100%,430px);margin-inline:auto}.plato-ref-stat:nth-child(3){border-inline-start:0;border-top:1px solid var(--pr-line)}.plato-ref-stat:nth-child(4){border-top:1px solid var(--pr-line)}}
-@media(max-width:600px){.plato-ref-layout{padding:95px 20px 85px}.plato-ref-stage{height:220px}.plato-ref-cube{--dice-size:135px}.plato-ref-heading{font-size:clamp(46px,13vw,66px)}[dir=rtl] .plato-ref-heading{font-size:clamp(43px,12vw,65px)}.plato-ref-kicker{margin-bottom:14px}.plato-ref-desc{margin-top:20px;font-size:16px}.plato-ref-actions{margin-top:25px;flex-direction:column;align-items:center}.plato-ref-button{width:min(100%,280px)}.plato-ref-stats{margin-top:30px}.plato-ref-stat{padding:12px 14px;min-width:0}.plato-ref-stat b{font-size:23px}.plato-ref-king{inset-inline-start:4%;top:0;transform:scale(.75)}.plato-ref-card{inset-inline-end:4%;top:5%;transform:scale(.8)}.plato-ref-chip{inset-inline-end:0;bottom:0;transform:scale(.75)}}
+@media(max-width:600px){.plato-ref-layout{padding:95px 20px 85px}.plato-ref-stage{height:220px}.plato-ref-cube{--dice-size:135px}.plato-ref-heading{font-size:clamp(46px,13vw,66px)}[dir=rtl] .plato-ref-heading{font-size:clamp(43px,12vw,65px)}.plato-ref-desc{margin-top:20px;font-size:16px}.plato-ref-actions{margin-top:25px;flex-direction:column;align-items:center}.plato-ref-button{width:min(100%,280px)}.plato-ref-stats{margin-top:30px}.plato-ref-stat{padding:12px 14px;min-width:0}.plato-ref-stat b{font-size:23px}.plato-ref-king{inset-inline-start:4%;top:0;transform:scale(.75)}.plato-ref-card{inset-inline-end:4%;top:5%;transform:scale(.8)}.plato-ref-chip{inset-inline-end:0;bottom:0;transform:scale(.75)}}
 @media(prefers-reduced-motion:reduce){.plato-ref-hero *, .plato-ref-hero *::before,.plato-ref-hero *::after{animation:none!important;transition:none!important}.plato-ref-heading span{opacity:1;transform:none;filter:none}}
 
 /* Blue-dominant glow on small screens, preserving desktop styling. */
