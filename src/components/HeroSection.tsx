@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../i18n/I18nProvider';
+import { GAMES, type Game } from '../data/games';
 import './platoReferenceHero.css';
 
+// Voice is a chat feature, not a game, so it is never picked as "today's game".
+const PICKABLE = GAMES.filter((g) => g.id !== 'voice');
 const pips = [[4], [0,8], [0,4,8], [0,2,6,8], [0,2,4,6,8], [0,2,3,5,6,8]];
 const turns = ['rotateY(0deg)', 'rotateY(90deg)', 'rotateY(180deg)', 'rotateY(-90deg)', 'rotateX(90deg)', 'rotateX(-90deg)'];
 
@@ -10,8 +13,10 @@ export default function HeroSection() {
   const [outline, setOutline] = useState(false);
   const [hasRolled, setHasRolled] = useState(false);
   const [rolling, setRolling] = useState(false);
-  const [result, setResult] = useState<number | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [pick, setPick] = useState<Game | null>(null);
+  const nextPick = useRef<Game | null>(null);
+  const lastId = useRef('');
   const stageRef = useRef<HTMLDivElement>(null);
   const cubeRef = useRef<HTMLButtonElement>(null);
   const actionRef = useRef<null | (() => void)>(null);
@@ -51,6 +56,7 @@ export default function HeroSection() {
         m.yaw = m.fromY + (m.toY - m.fromY) * ease;
         if (p >= 1) {
           m.mode = 'hold';
+          setPick(nextPick.current);
           m.holdUntil = now + (reducedRef.current ? 400 : 1050);
         }
       } else if (m.mode === 'hold') {
@@ -70,9 +76,14 @@ export default function HeroSection() {
       if (m.mode !== 'idle') return;
       const number = Math.floor(Math.random() * 6) + 1;
       setHasRolled(true);
-      setResult(number);
       setRolling(true);
       setOutline(true);
+      // Today's game: a random catalogue entry (never the same one twice in a row), revealed when the dice stops.
+      let game = PICKABLE[Math.floor(Math.random() * PICKABLE.length)];
+      while (PICKABLE.length > 1 && game.id === lastId.current) game = PICKABLE[Math.floor(Math.random() * PICKABLE.length)];
+      lastId.current = game.id;
+      nextPick.current = game;
+      setPick(null);
       // Faces map to 1..6. Two full turns make the roll visible; the destination
       // is a canonical face angle offset from the current position, so no snap occurs.
       const destinations = [
@@ -111,7 +122,7 @@ export default function HeroSection() {
             <div className="plato-ref-stat"><b className="plato-ref-heart" aria-hidden="true">♥</b><small>{rtl ? 'مجتمع متنامٍ' : 'Growing Community'}</small></div>
           </div>
         </div>
-        <div className="plato-ref-stage" ref={stageRef} onPointerMove={(event) => {
+        <div className={`plato-ref-stage${pick ? ' has-pick' : ''}`} ref={stageRef} onPointerMove={(event) => {
           if (event.pointerType !== 'mouse' || !stageRef.current) return;
           const r = stageRef.current.getBoundingClientRect();
           setTilt({ x: -((event.clientY-r.top)/r.height-.5)*12, y: ((event.clientX-r.left)/r.width-.5)*12 });
@@ -125,8 +136,24 @@ export default function HeroSection() {
               </span>)}
             </button></div>
           </div>
-          {!hasRolled && <span className="plato-ref-click-hint" aria-hidden="true"><span className="plato-ref-click-hint-icon">{rtl ? '←' : '↗'}</span>{rtl ? 'اضغط لرمي النرد' : 'Click to Roll'}</span>}
-          <span className="sr-only" role="status" aria-live="polite">{result === null ? '' : (rtl ? `نتيجة النرد ${result}` : `Dice rolled ${result}`)}</span>
+          {!hasRolled && <span className="plato-ref-click-hint" aria-hidden="true"><span className="plato-ref-click-hint-icon">{rtl ? '←' : '↗'}</span>{t.pickHint}</span>}
+          <span className="sr-only" role="status" aria-live="polite">{pick ? `${t.pickLabel}: ${pick.name[lang]}` : ''}</span>
+          {pick && (
+            <div className="plato-ref-pick" key={pick.id}>
+              <span className="plato-ref-pick-art" style={{ background: `linear-gradient(145deg, ${pick.colors[0]}, ${pick.colors[1]})` }}>
+                {pick.image && <img src={pick.image} alt="" onError={(e) => { e.currentTarget.style.display = 'none'; }} />}
+              </span>
+              <div className="plato-ref-pick-body">
+                <small>{t.pickLabel}</small>
+                <b>{pick.name[lang]}</b>
+                <span>{pick.genre[lang]}</span>
+              </div>
+              <div className="plato-ref-pick-actions">
+                <a href={`#/games/${pick.id}`} className="plato-ref-button plato-ref-button-primary">{t.pickView}</a>
+                <button type="button" disabled={rolling} onClick={rollDice} className="plato-ref-button plato-ref-button-secondary">{t.pickAgain}</button>
+              </div>
+            </div>
+          )}
           <div className="plato-ref-shadow" aria-hidden="true"/>
         </div>
       </div>
