@@ -5,6 +5,7 @@ import { statusOf, tournamentsForGame } from '../data/tournaments';
 import { useI18n } from '../i18n/I18nProvider';
 import { ArrowIcon } from './icons';
 
+const MASK = 'linear-gradient(180deg, #000 0%, #000 44%, rgba(0,0,0,.62) 62%, rgba(0,0,0,.28) 80%, transparent 100%)';
 const WRAP = 'px-[clamp(1.1rem,7vw,6.9rem)]';
 
 function Block({ title, children }: { title: string; children: ReactNode }) {
@@ -42,20 +43,27 @@ export default function GamePage({ id }: { id: string }) {
   }
 
   const shots = g.screenshots?.length ? g.screenshots : SHOW_EXAMPLE_GAMES ? [null, null, null] : [];
+  const tone = g.tone ?? g.colors[0];
   const tile = { background: `linear-gradient(160deg, ${g.colors[0]}55, ${g.colors[1]})`, borderColor: 'var(--glass-b)' };
 
   return (
-    <article className="page-in min-h-[100svh]" style={{ background: 'var(--bg)' }}>
-      <header className={`on-art relative isolate overflow-hidden pb-16 pt-[clamp(6.5rem,12vw,9rem)] ${WRAP}`} style={{ background: `linear-gradient(135deg, ${g.colors[0]}, ${g.colors[1]})` }}>
-        {g.image && <img src={g.image} alt="" className="absolute inset-0 -z-10 h-full w-full object-cover" />}
-        <div aria-hidden="true" className="absolute inset-0 -z-10" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,.38) 0%, rgba(0,0,0,.46) 80%, var(--bg) 100%)' }} />
+    <article className="page-in relative isolate min-h-[100svh] overflow-x-clip" style={{ background: 'var(--bg)' }}>
+      {/* Ambient glow: the page under the banner keeps a faint tint of the artwork instead of going flat white. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[60rem]" style={{ background: `radial-gradient(ellipse 85% 34rem at 50% 20rem, color-mix(in srgb, ${tone} 30%, transparent), transparent 100%)` }} />
+      <header className={`on-art relative isolate pb-16 pt-[clamp(6.5rem,12vw,9rem)] ${WRAP}`}>
+        {/* Backdrop: the art, blurred, reaching 9rem below the banner and fading out, so the colours melt into the page instead of ending in a hard edge. */}
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 -z-10 overflow-hidden" style={{ height: 'calc(100% + 9rem)', background: `linear-gradient(135deg, ${g.colors[0]}, ${g.colors[1]})`, WebkitMaskImage: MASK, maskImage: MASK }}>
+          {g.image && <img src={g.image} alt="" className="absolute inset-0 h-full w-full scale-125 object-cover blur-2xl saturate-150" />}
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,.38) 0%, rgba(0,0,0,.46) 52%, rgba(0,0,0,0) 78%)' }} />
+        </div>
+        {g.image && <img src={g.image} alt="" className="absolute end-[clamp(1.1rem,7vw,6.9rem)] top-1/2 hidden w-40 -translate-y-1/2 rounded-3xl shadow-2xl lg:block" style={{ boxShadow: '0 24px 50px -18px rgba(0,0,0,.6)' }} />}
         <div className="mb-6 text-white">{back}</div>
         <span className="inline-block rounded-full border px-3.5 py-1 text-[.82rem] font-semibold" style={{ borderColor: 'rgba(255,255,255,.4)', background: 'rgba(0,0,0,.25)' }}>{g.genre[lang]}</span>
         <h1 className="mt-4 font-display text-[clamp(2.2rem,6vw,4.5rem)] font-black leading-tight rtl:font-sans rtl:font-extrabold">{g.name[lang]}</h1>
         <p className="mt-3 max-w-[40rem] text-[1.05rem]" style={{ color: 'rgba(255,255,255,.88)' }}>{g.tagline[lang]}</p>
       </header>
 
-      <div className={`mx-auto max-w-[72rem] pb-[clamp(3rem,8vw,6rem)] pt-10 ${WRAP}`}>
+      <div className={`mx-auto max-w-[72rem] pb-[clamp(3rem,8vw,6rem)] pt-14 ${WRAP}`}>
         <Block title={t.secOverview}><p className="max-w-[48rem] leading-relaxed" style={{ color: 'var(--muted)' }}>{g.overview[lang]}</p></Block>
 
         {!!g.howToPlay?.length && (
