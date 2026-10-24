@@ -170,7 +170,7 @@
 @media(prefers-reduced-motion:reduce){.plato-ref-pick{animation:none!important}}
 
 /* ── Light theme ── */
-:root[data-theme='light'] .plato-ref-hero{--pr-ink:#0f1747;--pr-mute:#4a5788;--pr-glass:rgba(255,255,255,.66);--pr-line:rgba(40,70,180,.2);--pr-b1:#8db4ff;--pr-b2:#c4b3ff;--pr-b3:#ffd3a6;--pr-cta:#2f5bff;--pr-g1:#2a63ff;--pr-g2:#6a49f0;--pr-w1:#f08400;--pr-w2:#e3a100;background:linear-gradient(180deg,#e6efff 0%,#f4f1ff 58%,#fdf5ec 100%);color:var(--pr-ink)}
+:root[data-theme='light'] .plato-ref-hero{--pr-ink:#0f1747;--pr-mute:#4a5788;--pr-glass:rgba(255,255,255,.66);--pr-line:rgba(40,70,180,.2);--pr-b1:#8db4ff;--pr-b2:#c4b3ff;--pr-b3:#cdd8ff;--pr-cta:#2f5bff;--pr-g1:#2a63ff;--pr-g2:#6a49f0;--pr-w1:#f08400;--pr-w2:#e3a100;background:linear-gradient(180deg,#dfeaff 0%,#ebeeff 55%,#f4f2ff 100%);color:var(--pr-ink)}
 :root[data-theme='light'] .plato-ref-glows span{opacity:.6}
 :root[data-theme='light'] .plato-ref-glows span:nth-child(3){opacity:.45}
 :root[data-theme='light'] .plato-ref-face{border-color:rgba(90,100,210,.45);box-shadow:inset 0 0 28px rgba(255,255,255,.6),inset 0 -8px 24px rgba(110,90,255,.3);background:linear-gradient(145deg,#fbfaff,#c9c2fb)}
@@ -192,3 +192,19 @@
 /* Light theme: rolling (outline) state keeps the see-through wireframe look */
 :root[data-theme='light'] .plato-ref-cube.is-outline .plato-ref-face{background:rgba(255,255,255,.06);box-shadow:none;border-color:#5a4de0}
 :root[data-theme='light'] .plato-ref-cube.is-outline .plato-ref-face i{background:transparent;border:3px solid #2455e8}
+
+/* Light theme polish: black king, blue chip, cooler palette so the scene reads as one family */
+:root[data-theme='light'] .plato-ref-king g{stroke:#7b87d8}
+:root[data-theme='light'] .plato-ref-king stop:nth-child(1){stop-color:#4a5384}
+:root[data-theme='light'] .plato-ref-king stop:nth-child(2){stop-color:#232949}
+:root[data-theme='light'] .plato-ref-king stop:nth-child(3){stop-color:#0d1129}
+:root[data-theme='light'] .plato-ref-king{filter:drop-shadow(0 14px 12px rgba(30,40,110,.4))}
+:root[data-theme='light'] .plato-ref-chip{background:radial-gradient(circle,#5b8cff 40%,#2f5bff 41%);box-shadow:0 16px 30px -10px rgba(47,91,255,.65)}
+:root[data-theme='light'] .plato-ref-face{background:linear-gradient(145deg,#f4f6ff,#b9c4fb);border-color:rgba(60,80,200,.5)}
+
+/* Hero photo backgrounds (blurred, logo-free). Dark: deep blue; light: pastel version. */
+.plato-ref-hero{background:linear-gradient(180deg,rgba(4,6,24,.35),rgba(4,6,24,.2) 50%,rgba(4,6,24,.65)),url('/bg/hero-dark.jpg') center/cover no-repeat,#0d0e22}
+:root[data-theme='light'] .plato-ref-hero{background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.04) 50%,rgba(244,242,255,.4)),url('/bg/hero-light.jpg') center/cover no-repeat,#e8eeff}
+@media(max-width:600px){
+  :root[data-theme='light'] .plato-ref-hero{background:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,.08) 55%,rgba(244,242,255,.45)),url('/bg/hero-light.jpg') 40% center/cover no-repeat,#e8eeff}
+}
