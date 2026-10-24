@@ -120,3 +120,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid #7fe3ff; outline-offs
   .hero .hero-cta { margin-top: 2.5rem; }
   .hero .hero-stats { margin-top: 2.75rem; }
 }
+
+/* Dashboard login backdrop */
+.admin-bg { background: linear-gradient(180deg, rgba(5,6,12,.55), rgba(5,6,12,.85)), url('/bg/hero-dark.jpg') center / cover no-repeat, var(--bg); }
+:root[data-theme='light'] .admin-bg { background: linear-gradient(180deg, rgba(246,249,255,.35), rgba(246,249,255,.75)), url('/bg/hero-light.jpg') center / cover no-repeat, var(--bg); }

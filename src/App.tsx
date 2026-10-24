@@ -16,13 +16,12 @@ import SupportSection from './components/SupportSection';
 
 function Pages() {
   const route = useRoute();
+  if (route.page === 'admin') return <AdminPage />;
   return (
     <>
       <Header page={route.page} />
       <main>
-        {route.page === 'admin' ? (
-          <AdminPage />
-        ) : route.page === 'news' ? (
+        {route.page === 'news' ? (
           <NewsPage />
         ) : route.page === 'game' ? (
           <GamePage id={route.id ?? ''} />

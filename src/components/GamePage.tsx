@@ -56,14 +56,13 @@ export default function GamePage({ id }: { id: string }) {
           {g.image && <img src={g.image} alt="" className="absolute inset-0 h-full w-full scale-125 object-cover blur-2xl saturate-150" />}
           <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,.38) 0%, rgba(0,0,0,.46) 52%, rgba(0,0,0,0) 78%)' }} />
         </div>
-        {g.image && <img src={g.image} alt="" className="absolute end-[clamp(1.1rem,7vw,6.9rem)] top-1/2 hidden w-40 -translate-y-1/2 rounded-3xl shadow-2xl lg:block" style={{ boxShadow: '0 24px 50px -18px rgba(0,0,0,.6)' }} />}
         <div className="mb-6 text-white">{back}</div>
         <span className="inline-block rounded-full border px-3.5 py-1 text-[.82rem] font-semibold" style={{ borderColor: 'rgba(255,255,255,.4)', background: 'rgba(0,0,0,.25)' }}>{g.genre[lang]}</span>
         <h1 className="mt-4 font-display text-[clamp(2.2rem,6vw,4.5rem)] font-black leading-tight rtl:font-sans rtl:font-extrabold">{g.name[lang]}</h1>
         <p className="mt-3 max-w-[40rem] text-[1.05rem]" style={{ color: 'rgba(255,255,255,.88)' }}>{g.tagline[lang]}</p>
       </header>
 
-      <div className={`mx-auto max-w-[72rem] pb-[clamp(3rem,8vw,6rem)] pt-14 ${WRAP}`}>
+      <div className={`mx-auto max-w-[72rem] pb-[clamp(3rem,8vw,6rem)] pt-24 ${WRAP}`}>
         <Block title={t.secOverview}><p className="max-w-[48rem] leading-relaxed" style={{ color: 'var(--muted)' }}>{g.overview[lang]}</p></Block>
 
         {!!g.howToPlay?.length && (
