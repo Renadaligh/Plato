@@ -62,7 +62,7 @@ export default function GamePage({ id }: { id: string }) {
         <p className="mt-3 max-w-[40rem] text-[1.05rem]" style={{ color: 'rgba(255,255,255,.88)' }}>{g.tagline[lang]}</p>
       </header>
 
-      <div className={`mx-auto max-w-[72rem] pb-[clamp(3rem,8vw,6rem)] pt-24 ${WRAP}`}>
+      <div className={`pb-[clamp(3rem,8vw,6rem)] pt-24 ${WRAP}`}>
         <Block title={t.secOverview}><p className="max-w-[48rem] leading-relaxed" style={{ color: 'var(--muted)' }}>{g.overview[lang]}</p></Block>
 
         {!!g.howToPlay?.length && (
