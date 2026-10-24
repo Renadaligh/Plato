@@ -13,10 +13,10 @@ npm run build    # type-check + production build (dist/)
 - `src/components/` — أقسام الصفحة (Hero، الأخبار، الألعاب، البطولات، …) ونموذج التسجيل.
 - `src/i18n/translations.ts` — نصوص EN / AR (المفاتيح متطابقة في اللغتين).
 - `src/config/site.ts` — قائمة التنقل واسم الموقع (`BRAND`).
-- `src/config/sheets.ts` — روابط Google Sheets (الأخبار، البطولات، التسجيل).
-- `src/data/` — بيانات تجريبية تظهر إذا لم تُربط الجداول.
-- `sheet-template/` — قالب الجدول وسكربت التسجيل (انظر `README-ar.md`).
+- `functions/` — الـAPI (Cloudflare Pages Functions) للأخبار والبطولات والتسجيلات.
+- `schema.sql` / `wrangler.toml` — قاعدة البيانات (Cloudflare D1).
+- `src/components/AdminPage.tsx` — لوحة التحكم على `#/admin` (انظر `ADMIN-SETUP.md`).
+- `src/data/` — الألعاب، وبيانات تجريبية تظهر في `npm run dev` فقط.
 
 ## النشر
-- GitHub Pages: `.github/workflows/deploy.yml` (المسار `/Plato/` يُضبط في `vite.config.ts`).
-- Cloudflare Pages: Build command `npm run build` · Output `dist`.
+- Cloudflare Pages فقط (الـAPI يحتاج Functions): Build command `npm run build` · Output `dist`.
