@@ -20,7 +20,7 @@ export default function HeroSection() {
   // The suggestion is temporary: after 10 seconds the card goes away and the hero is back to its start state.
   useEffect(() => {
     if (!pick) return;
-    const id = window.setTimeout(() => setPick(null), 30_000);
+    const id = window.setTimeout(() => setPick(null), 10_000);
     return () => window.clearTimeout(id);
   }, [pick]);
   const stageRef = useRef<HTMLDivElement>(null);
