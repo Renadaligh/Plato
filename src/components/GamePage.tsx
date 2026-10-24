@@ -52,7 +52,7 @@ export default function GamePage({ id }: { id: string }) {
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[60rem]" style={{ background: `radial-gradient(ellipse 85% 34rem at 50% 20rem, color-mix(in srgb, ${tone} 30%, transparent), transparent 100%)` }} />
       <header className={`on-art relative isolate pb-16 pt-[clamp(6.5rem,12vw,9rem)] ${WRAP}`}>
         {/* Backdrop: the art, blurred, reaching 9rem below the banner and fading out, so the colours melt into the page instead of ending in a hard edge. */}
-        <div aria-hidden="true" className="absolute inset-x-0 top-0 -z-10 overflow-hidden" style={{ height: 'calc(100% + 9rem)', background: `linear-gradient(135deg, ${g.colors[0]}, ${g.colors[1]})`, WebkitMaskImage: MASK, maskImage: MASK }}>
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 -z-10 overflow-hidden" style={{ height: 'calc(100% + 3rem)', background: `linear-gradient(135deg, ${g.colors[0]}, ${g.colors[1]})`, WebkitMaskImage: MASK, maskImage: MASK }}>
           {g.image && <img src={g.image} alt="" className="absolute inset-0 h-full w-full scale-125 object-cover blur-2xl saturate-150" />}
           <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,.38) 0%, rgba(0,0,0,.46) 52%, rgba(0,0,0,0) 78%)' }} />
         </div>
@@ -62,7 +62,7 @@ export default function GamePage({ id }: { id: string }) {
         <p className="mt-3 max-w-[40rem] text-[1.05rem]" style={{ color: 'rgba(255,255,255,.88)' }}>{g.tagline[lang]}</p>
       </header>
 
-      <div className={`pb-[clamp(3rem,8vw,6rem)] pt-24 ${WRAP}`}>
+      <div className={`mx-auto max-w-[72rem] pb-[clamp(3rem,8vw,6rem)] pt-28 ${WRAP}`}>
         <Block title={t.secOverview}><p className="max-w-[48rem] leading-relaxed" style={{ color: 'var(--muted)' }}>{g.overview[lang]}</p></Block>
 
         {!!g.howToPlay?.length && (
