@@ -34,9 +34,9 @@
 @keyframes platoRefBob{50%{transform:translateY(-22px)}}
 .plato-ref-cube{--dice-size:clamp(150px,19vw,230px);position:relative;display:block;width:var(--dice-size);height:var(--dice-size);transform-style:preserve-3d;cursor:pointer;background:transparent;border:0;padding:0;appearance:none;-webkit-tap-highlight-color:transparent}
 .plato-ref-face{position:absolute;inset:0;border-radius:7%;background:linear-gradient(145deg,#fff,#cfc8ff);display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:15%;border:1px solid rgba(239,235,255,.72);box-shadow:inset 0 0 40px rgba(255,255,255,.7),inset 0 -10px 30px rgba(110,90,255,.25);backface-visibility:visible}
-.plato-ref-face i{place-self:center;width:62%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7d72ff,#3a30b8)}
+.plato-ref-face i{place-self:center;width:62%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#6aa8ff,#1f4fd8)}
 .plato-ref-cube.is-outline .plato-ref-face{background:rgba(255,255,255,.04);box-shadow:none;border-color:var(--pr-g2)}
-.plato-ref-cube.is-outline .plato-ref-face i{background:transparent;border:3px solid var(--pr-g2)}
+.plato-ref-cube.is-outline .plato-ref-face i{background:transparent;border:3px solid #5aa0ff}
 @keyframes platoRefSpin{from{transform:rotateX(-24deg) rotateY(0)}to{transform:rotateX(-24deg) rotateY(360deg)}}
 .plato-ref-king{position:absolute;width:72px;height:115px;top:10%;inset-inline-start:11%;filter:drop-shadow(0 14px 12px rgba(70,50,170,.35));animation:platoRefBob 7s ease-in-out infinite}
 .plato-ref-king svg{display:block;width:100%;height:100%;transform:rotate(-12deg)}
@@ -191,4 +191,4 @@
 
 /* Light theme: rolling (outline) state keeps the see-through wireframe look */
 :root[data-theme='light'] .plato-ref-cube.is-outline .plato-ref-face{background:rgba(255,255,255,.06);box-shadow:none;border-color:#5a4de0}
-:root[data-theme='light'] .plato-ref-cube.is-outline .plato-ref-face i{background:transparent;border:3px solid #5a4de0}
+:root[data-theme='light'] .plato-ref-cube.is-outline .plato-ref-face i{background:transparent;border:3px solid #2455e8}
