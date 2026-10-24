@@ -8,14 +8,14 @@
   --nav-solid: rgba(6, 6, 8, 0.78); --link-on: #5aa2ff; color-scheme: dark;
   --chip-bg: rgba(0, 0, 0, .3); --chip-b: rgba(255, 255, 255, .2); --track: rgba(255, 255, 255, .15);
   --dialog: #0c0c11; --shadow: rgba(0, 0, 0, .45); --skel-a: rgba(255, 255, 255, .04); --skel-b: rgba(255, 255, 255, .09);
-  --art-a: #15151b; --art-b: #07070a;
+  --art-a: #15151b; --art-b: #07070a; --card-dim: brightness(.62) saturate(.85);
 }
 select, select option { background-color: var(--dialog); color: var(--text); }
 
 :root[data-theme='light'] {
   --bg: #f3f6ff; --bg-rgb: 243, 246, 255; --text: #0c1334; --muted: #4f5b80;
   --glass: rgba(255, 255, 255, .8); --glass-b: rgba(30, 50, 130, .15);
-  --nav-solid: rgba(246, 249, 255, .88); --link-on: #2455e8; color-scheme: light;
+  --nav-solid: rgba(246, 249, 255, .88); --link-on: #2455e8; color-scheme: light; --card-dim: brightness(.9) saturate(.95);
   --chip-bg: rgba(30, 50, 130, .06); --chip-b: rgba(30, 50, 130, .16); --track: rgba(30, 50, 130, .12);
   --dialog: #fff; --shadow: rgba(30, 50, 130, .2); --skel-a: rgba(30, 50, 130, .05); --skel-b: rgba(30, 50, 130, .1);
   --art-a: #e6edff; --art-b: #c9d6ff;

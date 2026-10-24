@@ -51,7 +51,7 @@ export default function Header({ page }: { page: 'home' | 'news' | 'game' | 'adm
               const on = active === n.href;
               return (
                 <li key={n.href}>
-                  <a href={n.href} onClick={() => pick(n.href)} aria-current={on ? 'page' : undefined} className="border-b-2 py-1.5 text-[1.05rem] transition-colors hover:text-[var(--text)]" style={{ color: on ? 'var(--text)' : 'var(--muted)', borderColor: on ? 'var(--link-on)' : 'transparent' }}>
+                  <a href={n.href} onClick={() => pick(n.href)} aria-current={on ? 'page' : undefined} className="border-b-2 py-1.5 text-[1.05rem] rtl:font-bold transition-colors hover:text-[var(--text)]" style={{ color: on ? 'var(--text)' : 'var(--muted)', borderColor: on ? 'var(--link-on)' : 'transparent' }}>
                     {t[n.key]}
                   </a>
                 </li>
@@ -71,7 +71,7 @@ export default function Header({ page }: { page: 'home' | 'news' | 'game' | 'adm
         <nav id="mobile-menu" aria-label="Mobile" className="border-t px-[clamp(1rem,4vw,3.5rem)] pb-4 pt-2 lg:hidden" style={{ borderColor: 'var(--glass-b)' }}>
           <ul className="flex flex-col">
             {NAV.map((n) => (
-              <li key={n.href}><a href={n.href} onClick={() => { pick(n.href); setOpen(false); }} className="block py-3 text-lg" style={{ color: active === n.href ? 'var(--text)' : 'var(--muted)' }}>{t[n.key]}</a></li>
+              <li key={n.href}><a href={n.href} onClick={() => { pick(n.href); setOpen(false); }} className="block py-3 text-lg rtl:font-bold" style={{ color: active === n.href ? 'var(--text)' : 'var(--muted)' }}>{t[n.key]}</a></li>
             ))}
           </ul>
         </nav>

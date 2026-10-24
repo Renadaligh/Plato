@@ -116,7 +116,7 @@ export default function GamesSection() {
             const style: Vars = {
               transform: `translateX(calc(-50% + var(--cw) * ${x})) translateY(calc(var(--cw) * ${y})) rotate(${rot}deg) scale(${sc})`,
               zIndex: 10 - a, opacity: shown ? 1 : 0, pointerEvents: shown ? 'auto' : 'none',
-              filter: o === 0 ? 'none' : 'brightness(.62) saturate(.85)',
+              filter: o === 0 ? 'none' : 'var(--card-dim)',
               background: `linear-gradient(160deg, ${g.colors[0]}, ${g.colors[1]})`,
             };
             return (
@@ -129,7 +129,7 @@ export default function GamesSection() {
                   if (o === 0) go(g); else setIndex(i);
                 }}>
                 {g.image ? <OfficialGameImage key={g.id} src={g.image} /> : <div className="gcard-art" />}
-                <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{background:'linear-gradient(to top, rgba(5,9,28,.97) 0%,rgba(5,9,28,.83) 18%,rgba(5,9,28,.35) 45%,transparent 76%)'}} />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{background:'linear-gradient(to top, rgba(5,9,28,.92) 0%,rgba(5,9,28,.7) 16%,rgba(5,9,28,.25) 40%,transparent 66%)'}} />
                 <div className="absolute inset-x-0 bottom-0 z-10 p-4 text-white sm:p-5">
                   <span className="text-[.78rem] font-semibold opacity-85">{g.genre[lang]}</span>
                   <div className="text-[clamp(1.15rem,1.8vw,1.55rem)] font-extrabold leading-tight">{g.name[lang]}</div>
