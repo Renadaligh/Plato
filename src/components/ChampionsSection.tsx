@@ -16,7 +16,10 @@ function useDate() {
     const f = new Intl.DateTimeFormat(loc, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Riyadh' });
     const a = new Date(x.startsAt), b = new Date(x.endsAt);
     if (f.format(a) === f.format(b)) return f.format(a);
-    return f.formatRange(a, b);
+    const d = new Intl.DateTimeFormat(loc, { day: 'numeric', timeZone: 'Asia/Riyadh' });
+    const ym = new Intl.DateTimeFormat(loc, { month: 'long', year: 'numeric', timeZone: 'Asia/Riyadh' });
+    // Same month: "18 – 20 October 2026"; otherwise both full dates.
+    return ym.format(a) === ym.format(b) ? `${d.format(a)} – ${d.format(b)} ${ym.format(a)}` : `${f.format(a)} – ${f.format(b)}`;
   };
 }
 
