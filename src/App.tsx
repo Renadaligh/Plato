@@ -10,7 +10,6 @@ import TournamentsSection from './components/TournamentsSection';
 import ChampionsSection from './components/ChampionsSection';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
-import CommunitySection from './components/CommunitySection';
 import AdminPage from './components/AdminPage';
 import SupportSection from './components/SupportSection';
 
@@ -32,7 +31,6 @@ function Pages() {
             <GamesSection />
             <TournamentsSection />
             <ChampionsSection />
-            <CommunitySection />
             <SupportSection />
           </>
         )}

@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS tournaments (
   filled INTEGER NOT NULL DEFAULT 0, total INTEGER NOT NULL DEFAULT 1,
   mode TEXT NOT NULL DEFAULT 'solo',
   register_url TEXT NOT NULL DEFAULT '', image TEXT NOT NULL DEFAULT '',
-  winner_en TEXT NOT NULL DEFAULT '', winner_ar TEXT NOT NULL DEFAULT '',
+  winner_en TEXT NOT NULL DEFAULT '', winner_ar TEXT NOT NULL DEFAULT '', winner_image TEXT NOT NULL DEFAULT '',
   published INTEGER NOT NULL DEFAULT 1
 );
 CREATE TABLE IF NOT EXISTS registrations (

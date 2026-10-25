@@ -41,7 +41,7 @@ const EN: Record<string, string> = {
   'الجائزة': 'Prize', '5,000 ريال': '5,000 SAR', 'البداية (توقيت الرياض)': 'Start (Riyadh time)', 'النهاية (توقيت الرياض)': 'End (Riyadh time)',
   'العدد الأقصى': 'Max slots', 'المسجّلين حالياً (يزيد تلقائياً مع كل تسجيل)': 'Registered now (auto-increments on each sign-up)',
   'رابط تسجيل خارجي (اختياري، يلغي نموذج الموقع)': 'External registration link (optional, replaces the site form)',
-  'الفائز (بعد الانتهاء)': 'Winner (after it ends)', 'منشورة (تظهر في الموقع)': 'Published (visible on the site)',
+  'الفائز (بعد الانتهاء)': 'Winner (after it ends)', 'صورة الفائز (طولية 9:16، اختياري)': 'Winner portrait (tall 9:16, optional)', 'منشورة (تظهر في الموقع)': 'Published (visible on the site)',
   'ما فيه بطولات بعد.': 'No tournaments yet.', 'مباشرة': 'Live', 'قادمة': 'Upcoming', 'منتهية': 'Completed',
   'تعذّر تحميل التسجيلات': 'Could not load registrations', 'البطولة': 'Tournament', 'الأعضاء': 'Members',
   'حذف هذا التسجيل؟': 'Delete this registration?', 'كل البطولات': 'All tournaments', 'تصدير CSV': 'Export CSV',
@@ -265,7 +265,7 @@ function NewsTab({ k, onAuthFail }: { k: string; onAuthFail: () => void }) {
 }
 
 /* ---------- Tournaments ---------- */
-const emptyT = (): Adm<Tournament> => ({ id: '', gameId: GAMES[0]?.id ?? '', name: { ar: '', en: '' }, format: { ar: '', en: '' }, prize: { ar: '', en: '' }, startsAt: '', endsAt: '', slots: { filled: 0, total: 16 }, mode: 'solo', registerUrl: '', image: '', winner: { ar: '', en: '' }, published: true });
+const emptyT = (): Adm<Tournament> => ({ id: '', gameId: GAMES[0]?.id ?? '', name: { ar: '', en: '' }, format: { ar: '', en: '' }, prize: { ar: '', en: '' }, startsAt: '', endsAt: '', slots: { filled: 0, total: 16 }, mode: 'solo', registerUrl: '', image: '', winner: { ar: '', en: '' }, winnerImage: '', published: true });
 const ST_TONE = { live: 'red', upcoming: 'amber', completed: 'gray' } as const;
 const ST_AR = { live: 'مباشرة', upcoming: 'قادمة', completed: 'منتهية' } as const;
 
@@ -318,7 +318,7 @@ function TournamentsTab({ k, onAuthFail }: { k: string; onAuthFail: () => void }
                 <div className="h-1.5 overflow-hidden rounded-full" style={{ background: 'var(--track)' }}><div className="h-full rounded-full" style={{ width: `${pct}%`, background: 'linear-gradient(90deg,#3b7bff,#2455e8)' }} /></div>
               </div>
               <div className="flex gap-2">
-                <button className={btnG} style={bd} onClick={() => { setMsg(''); setF({ ...r, winner: r.winner ?? { ar: '', en: '' }, registerUrl: r.registerUrl ?? '', image: r.image ?? '' }); }}>{x('تعديل')}</button>
+                <button className={btnG} style={bd} onClick={() => { setMsg(''); setF({ ...r, winner: r.winner ?? { ar: '', en: '' }, registerUrl: r.registerUrl ?? '', image: r.image ?? '', winnerImage: r.winnerImage ?? '' }); }}>{x('تعديل')}</button>
                 <button className={btnG} style={{ ...bd, color: '#ff6b7a' }} onClick={() => del(r.id)}>{x('حذف')}</button>
               </div>
             </Card>
@@ -346,6 +346,7 @@ function TournamentsTab({ k, onAuthFail }: { k: string; onAuthFail: () => void }
             <Field label={x('رابط تسجيل خارجي (اختياري، يلغي نموذج الموقع)')}><input dir="ltr" className={inp} style={bd} value={f.registerUrl ?? ''} placeholder="https://…" onChange={(e) => setF({ ...f, registerUrl: e.target.value })} /></Field>
             <Field label={x('رابط الصورة (اختياري)')}><input dir="ltr" className={inp} style={bd} value={f.image ?? ''} onChange={(e) => setF({ ...f, image: e.target.value })} /></Field>
             {pair('winner', x('الفائز (بعد الانتهاء)'), 'Winner')}
+            <Field label={x('صورة الفائز (طولية 9:16، اختياري)')}><input dir="ltr" className={inp} style={bd} value={f.winnerImage ?? ''} placeholder="/champions/name.webp" onChange={(e) => setF({ ...f, winnerImage: e.target.value })} /></Field>
             <label className="flex items-center gap-2.5 text-[.9rem]"><input type="checkbox" className="h-4 w-4" checked={f.published !== false} onChange={(e) => setF({ ...f, published: e.target.checked })} />{x('منشورة (تظهر في الموقع)')}</label>
             <div className="flex gap-3 pt-2"><button className={btnP} style={gradBtn} type="submit">{x('حفظ')}</button><button type="button" className={btnG} style={bd} onClick={() => setF(null)}>{x('إلغاء')}</button></div>
           </form>

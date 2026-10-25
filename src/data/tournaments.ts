@@ -25,6 +25,8 @@ export interface Tournament {
   image?: string;
   /** Completed tournaments: who won. */
   winner?: Localized;
+  /** Winner portrait (tall, ~9:16). Path under /public or full URL. */
+  winnerImage?: string;
 }
 
 export type TournamentStatus = 'live' | 'upcoming' | 'completed';

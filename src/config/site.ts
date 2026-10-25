@@ -7,7 +7,7 @@ export const NAV: { href: string; key: keyof Dict }[] = [
   { href: '#games', key: 'navGames' },
   { href: '#tournaments', key: 'navTournaments' },
   { href: '#champions', key: 'navChampions' },
-  { href: '#community', key: 'navCommunity' },
+  // { href: '#community', key: 'navCommunity' }, // hidden for now
   { href: '#support', key: 'navSupport' },
 ];
 
@@ -19,3 +19,6 @@ export const SOCIALS = {
   discord: 'https://discord.gg/platoar',
   instagram: '',
 } as const;
+
+/** Support Us: the store that funds the community. */
+export const STORE = { url: 'https://unlimited-blue.com', name: 'Unlimited Blue' } as const;
