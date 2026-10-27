@@ -1,6 +1,11 @@
 // Shared helpers for the API (Cloudflare Pages Functions + D1). Not a route: it exports no handlers.
 interface D1Stmt { bind(...v: unknown[]): D1Stmt; all<T = unknown>(): Promise<{ results: T[] }>; run(): Promise<unknown>; first<T = unknown>(): Promise<T | null> }
-export interface Env { DB: { prepare(q: string): D1Stmt }; ADMIN_PASSWORD?: string }
+interface R2Obj { body: ReadableStream; httpMetadata?: { contentType?: string } }
+export interface Env {
+  DB: { prepare(q: string): D1Stmt };
+  IMAGES?: { put(key: string, value: Uint8Array, opts?: { httpMetadata?: { contentType?: string } }): Promise<unknown>; get(key: string): Promise<R2Obj | null> };
+  ADMIN_PASSWORD?: string;
+}
 export type Ctx = { request: Request; env: Env; params: Record<string, string> };
 
 export const json = (data: unknown, status = 200) =>

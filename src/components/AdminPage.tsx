@@ -41,7 +41,7 @@ const EN: Record<string, string> = {
   'الجائزة': 'Prize', '5,000 ريال': '5,000 SAR', 'البداية (توقيت الرياض)': 'Start (Riyadh time)', 'النهاية (توقيت الرياض)': 'End (Riyadh time)',
   'العدد الأقصى': 'Max slots', 'المسجّلين حالياً (يزيد تلقائياً مع كل تسجيل)': 'Registered now (auto-increments on each sign-up)',
   'رابط تسجيل خارجي (اختياري، يلغي نموذج الموقع)': 'External registration link (optional, replaces the site form)',
-  'الفائز (بعد الانتهاء)': 'Winner (after it ends)', 'صورة الفائز (طولية 9:16، اختياري)': 'Winner portrait (tall 9:16, optional)', 'منشورة (تظهر في الموقع)': 'Published (visible on the site)',
+  'الفائز (بعد الانتهاء)': 'Winner (after it ends)', 'صورة الفائز (طولية 9:16، اختياري)': 'Winner portrait (tall 9:16, optional)', 'أو الصق رابط': 'or paste a link', 'اختر صورة من جهازك': 'Choose from your device', 'جارٍ الرفع…': 'Uploading…', 'فشل رفع الصورة': 'Image upload failed', 'التخزين غير مفعّل بعد (R2)': 'Storage is not enabled yet (R2)', 'إزالة': 'Remove', 'منشورة (تظهر في الموقع)': 'Published (visible on the site)',
   'ما فيه بطولات بعد.': 'No tournaments yet.', 'مباشرة': 'Live', 'قادمة': 'Upcoming', 'منتهية': 'Completed',
   'تعذّر تحميل التسجيلات': 'Could not load registrations', 'البطولة': 'Tournament', 'الأعضاء': 'Members',
   'حذف هذا التسجيل؟': 'Delete this registration?', 'كل البطولات': 'All tournaments', 'تصدير CSV': 'Export CSV',
@@ -80,6 +80,57 @@ const gradBtn = { background: 'linear-gradient(135deg,#3b7bff,#2455e8)', boxShad
 const btnG = 'inline-flex items-center justify-center gap-2 rounded-xl border px-3.5 py-2 text-[.85rem] font-semibold transition hover:bg-[var(--glass)]';
 const cube = { WebkitMask: `url(${BASE}brand/cube.png) center / contain no-repeat`, mask: `url(${BASE}brand/cube.png) center / contain no-repeat` };
 
+/** Downscale big photos in the browser (max 1800px, WebP) before upload. GIFs and failures are sent as-is. */
+async function shrink(file: File): Promise<Blob> {
+  if (file.type === 'image/gif' || !file.type.startsWith('image/')) return file;
+  try {
+    const bmp = await createImageBitmap(file);
+    const r = Math.min(1, 1800 / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas');
+    c.width = Math.round(bmp.width * r); c.height = Math.round(bmp.height * r);
+    c.getContext('2d')?.drawImage(bmp, 0, 0, c.width, c.height);
+    const out = await new Promise<Blob | null>((res) => c.toBlob(res, 'image/webp', 0.88));
+    return out && out.size < file.size ? out : file;
+  } catch { return file; }
+}
+
+/** Image field: choose a file from the computer (uploaded to R2) or paste a link/path. */
+function ImageField({ label, value, onChange, k, placeholder }: { label: string; value: string; onChange: (v: string) => void; k: string; placeholder?: string }) {
+  const { x } = useX();
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState('');
+  async function pick(file?: File) {
+    if (!file) return;
+    setBusy(true); setErr('');
+    try {
+      const fd = new FormData();
+      fd.append('file', await shrink(file), 'image');
+      const res = await fetch('/api/upload', { method: 'POST', headers: { authorization: `Bearer ${k}` }, body: fd });
+      if (!res.ok) throw new Error(String(res.status));
+      onChange(((await res.json()) as { url: string }).url);
+    } catch (e) { setErr((e as Error).message === '500' ? x('التخزين غير مفعّل بعد (R2)') : x('فشل رفع الصورة')); }
+    setBusy(false);
+  }
+  return (
+    <div className="flex flex-col gap-1.5 text-[.82rem] font-semibold" style={{ color: 'var(--muted)' }}>
+      {label}
+      <div className="flex items-center gap-3">
+        {value && <img src={value} alt="" className="h-14 w-10 shrink-0 rounded-lg border object-cover" style={{ borderColor: 'var(--glass-b)' }} />}
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
+          <input dir="ltr" className={inp} style={bd} value={value} placeholder={placeholder ?? 'https://… / ' + x('أو الصق رابط')} onChange={(e) => onChange(e.target.value)} />
+          <div className="flex flex-wrap items-center gap-2">
+            <label className={`${btnG} cursor-pointer ${busy ? 'opacity-60' : ''}`} style={bd}>
+              {busy ? x('جارٍ الرفع…') : x('اختر صورة من جهازك')}
+              <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" className="sr-only" disabled={busy} onChange={(e) => { void pick(e.target.files?.[0]); e.target.value = ''; }} />
+            </label>
+            {value && <button type="button" className="text-[.82rem] font-semibold" style={{ color: '#ff6b7a' }} onClick={() => onChange('')}>{x('إزالة')}</button>}
+            {err && <span role="alert" className="text-[.82rem] font-semibold" style={{ color: '#ff6b7a' }}>{err}</span>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 function Field({ label, children, wide }: { label: string; children: ReactNode; wide?: boolean }) {
   return <label className={`flex flex-col gap-1.5 text-[.82rem] font-semibold ${wide ? 'sm:col-span-2' : ''}`} style={{ color: 'var(--muted)' }}>{label}{children}</label>;
 }
@@ -253,7 +304,7 @@ function NewsTab({ k, onAuthFail }: { k: string; onAuthFail: () => void }) {
                 </select>
               </Field>
             </div>
-            <Field label={x('رابط الصورة (اختياري)')}><input dir="ltr" className={inp} style={bd} value={f.image ?? ''} placeholder={x('https://… أو /images/x.jpg')} onChange={(e) => setF({ ...f, image: e.target.value })} /></Field>
+            <ImageField k={k} label={x('رابط الصورة (اختياري)')} value={f.image ?? ''} onChange={(v) => setF({ ...f, image: v })} />
             <Field label={x('رابط الخبر (اختياري)')}><input dir="ltr" className={inp} style={bd} value={f.href ?? ''} placeholder="https://…" onChange={(e) => setF({ ...f, href: e.target.value })} /></Field>
             <label className="flex items-center gap-2.5 text-[.9rem]"><input type="checkbox" className="h-4 w-4" checked={f.published !== false} onChange={(e) => setF({ ...f, published: e.target.checked })} />{x('منشور (يظهر في الموقع)')}</label>
             <div className="flex gap-3 pt-2"><button className={btnP} style={gradBtn} type="submit">{x('حفظ')}</button><button type="button" className={btnG} style={bd} onClick={() => setF(null)}>{x('إلغاء')}</button></div>
@@ -344,9 +395,9 @@ function TournamentsTab({ k, onAuthFail }: { k: string; onAuthFail: () => void }
               <Field label={x('المسجّلين حالياً (يزيد تلقائياً مع كل تسجيل)')}><input type="number" min={0} className={inp} style={bd} value={f.slots.filled} onChange={(e) => setF({ ...f, slots: { ...f.slots, filled: Number(e.target.value) } })} /></Field>
             </div>
             <Field label={x('رابط تسجيل خارجي (اختياري، يلغي نموذج الموقع)')}><input dir="ltr" className={inp} style={bd} value={f.registerUrl ?? ''} placeholder="https://…" onChange={(e) => setF({ ...f, registerUrl: e.target.value })} /></Field>
-            <Field label={x('رابط الصورة (اختياري)')}><input dir="ltr" className={inp} style={bd} value={f.image ?? ''} onChange={(e) => setF({ ...f, image: e.target.value })} /></Field>
+            <ImageField k={k} label={x('رابط الصورة (اختياري)')} value={f.image ?? ''} onChange={(v) => setF({ ...f, image: v })} />
             {pair('winner', x('الفائز (بعد الانتهاء)'), 'Winner')}
-            <Field label={x('صورة الفائز (طولية 9:16، اختياري)')}><input dir="ltr" className={inp} style={bd} value={f.winnerImage ?? ''} placeholder="/champions/name.webp" onChange={(e) => setF({ ...f, winnerImage: e.target.value })} /></Field>
+            <ImageField k={k} label={x('صورة الفائز (طولية 9:16، اختياري)')} value={f.winnerImage ?? ''} onChange={(v) => setF({ ...f, winnerImage: v })} />
             <label className="flex items-center gap-2.5 text-[.9rem]"><input type="checkbox" className="h-4 w-4" checked={f.published !== false} onChange={(e) => setF({ ...f, published: e.target.checked })} />{x('منشورة (تظهر في الموقع)')}</label>
             <div className="flex gap-3 pt-2"><button className={btnP} style={gradBtn} type="submit">{x('حفظ')}</button><button type="button" className={btnG} style={bd} onClick={() => setF(null)}>{x('إلغاء')}</button></div>
           </form>
